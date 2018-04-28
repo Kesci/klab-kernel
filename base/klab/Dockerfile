@@ -1,0 +1,152 @@
+FROM klabteam/base:latest
+
+MAINTAINER K-Lab Authors <service@kesci.com>
+
+ENV NB_USER kesci
+
+USER $NB_USER
+
+# Install Jupyter and Py3 packages
+RUN mkdir -p ~/.pip/ && \
+# Add tuna mirror pypi souce index
+    echo "[global]\n\
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
+    pip install --upgrade pip && \
+    pip install jupyter && \
+    # Basic python packages
+    pip install \
+    opencv-python \
+    scipy==1.0.0 \
+    numpy==1.14.2 \
+    scikit-learn==0.19.1 \
+    keras==2.1.5 \
+    patsy==0.4.1 \
+    pandas==0.22.0 \
+    theano==1.0.1 \
+    xgboost==0.7.post4 \
+    statsmodels==0.8.0 \
+    tensorflow==1.6.0 \
+    # biopython==1.70 \ will raise error
+    line_profiler==2.0 \
+    orderedmultidict==0.7.11 \
+    smhasher==0.150.1 \
+    textblob==0.15.1 \
+    h5py==2.7.1 \
+    pudb==2017.1 \
+    bokeh==0.12.14 \
+    seaborn==0.8.1 \
+    # Extra python packages
+    pillow==4.2.1 \
+    mpld3==0.3 \
+    mplleaflet==0.0.5 \
+    gpxpy==1.1.2 \
+    arrow==0.12.1 \
+    sexmachine==0.1.1 \
+    geohash==1.0 \
+    tpot==0.6.8 \
+    haversine==0.4.5 \
+    toolz==0.8.2 \
+    cytoolz==0.8.2 \
+    sacred==0.6.10 \
+    plotly==2.0.1 \
+    tflearn==0.3.2 \
+    fitter==1.0.8 \
+    langid==1.1.6 \
+    # Delorean. Useful for dealing with datetime
+    delorean==0.6.0 \
+    trueskill==0.4.4 \
+    heamy==0.0.7 \
+    vida==0.3 \
+    # Useful data exploration libraries (for missing data and generating reports)
+    missingno==0.4.0 \
+    pandas-profiling==1.4.0 \
+    s2sphere==0.2.4 \
+    matplotlib-venn==0.11.5 \
+    pyldavis==2.1.1 \
+    altair==1.2.0 \
+    ml_metrics==0.1.4 \
+    tables==3.4.2 \
+    blaze==0.10.1 \
+    pydot==1.2.3 \
+    pyparsing==2.1.10 \
+    mdp==3.5 \
+    # milk==0.6.1 \ find some bugs here, will add this package later
+    # pattern==2.6 \ this pkg have some bugs when installing, admit it this time
+    rsa==3.4.2 \
+    netaddr==0.7.19 \
+    bs4==0.0.1 \
+    jieba==0.39 \
+    hmmlearn==0.2.0 \
+    lightgbm==2.1.0 \
+    xlrd==1.0.0 \
+    h2o==3.18.0.4 \
+    mxnet==1.1.0 \
+    wordcloud==1.4.1 \
+    klab-autotime==0.0.2 \
+    gensim==3.4.0 \
+    nltk==3.2.5 \
+    # textstat==0.4.1 \ only have py2 version
+    # readability==0.2 \ onyl have py3.2 & py2.7 version
+    #jupyter-pip \
+    #pyecharts==0.3.3 \
+    pygal==2.4.0 \
+    cufflinks==0.12.1 \
+    scikit-image==0.13.1 \
+    bunch==1.0.1 \
+    # pytorch-py3.5
+    #http://download.pytorch.org/whl/cu75/torch-0.2.0.post3-cp35-cp35m-manylinux1_x86_64.whl \
+    torch==0.3.1 \
+    torchvision \
+    # klab-plugin
+    && \
+    jupyter nbextension install --user --py vega
+
+ENV KERAS_BACKEND tensorflow
+
+# Basic python2 packages
+RUN python2 -m pip install \
+    scipy==0.18.1 \
+    numpy==1.12.0 \
+    scikit-learn==0.19.1 \
+    patsy==0.4.1 \
+    pandas==0.19.2 \
+    theano==0.8.2 \
+    keras==2.1.5 \
+    xgboost==0.7.post4 \
+    statsmodels==0.8.0 \
+    tensorflow==1.6.0 \
+    # biopython==1.68 \ will rasie error
+    line_profiler==2.0 \
+    orderedmultidict==0.7.11 \
+    smhasher==0.150.1 \
+    textblob==0.11.1 \
+    h5py==2.7.1 \
+    pudb==2017.1 \
+    bokeh==0.12.4 \
+    seaborn==0.7.1 \
+    plotly==2.0.1 \
+    lightgbm==2.1.0 \
+    bunch==1.0.1 \
+    # tqdm==4.19.5 \
+    # gensim==3.4.0 \ perhaps have bugs here, install later
+    nltk==3.2.5 \
+    textstat==0.4.1 \
+    readability==0.2 \
+    # scikit-image==0.13.1 \ install later
+    beautifulsoup4==4.6.0 \
+    lxml==4.1.1 \
+    jieba==0.39 \
+    # scikit-multilearn==0.0.5 \
+    # scikit-optimize==0.5.1 \
+    # scikit-plot==0.3.4 \
+    # scikit-surprise==1.0.5 \
+    # lightfm==1.14 \
+    # k-lab plugin
+    klab-autotime==0.0.2 && \
+    python2 -m pip install -U numpy && \
+    python2 -m pip install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.1a2-cp27-cp27mu-linux_x86_64.whl
+
+WORKDIR /home/$NB_USER/work
+# Clean pip cache
+RUN pip install tornado==4.5.3
+RUN rm -rf /home/$NB_USER/.cache/pip/*
