@@ -6,7 +6,7 @@ K-Lab 镜像是一个集成了 Python2, Python3, R 以及 Anaconda 的集成开�
 
 ## 运行
 
-可以直接用镜像运行 `docker run -it kesci/klab bash`, 进入交互式命令行模式。也可以启动 notebook 使用，` docker run -p 8888:8888  kesci/klab jupyter notebook --ip 0.0.0.0 --port 8888`。
+可以直接用镜像运行 `docker run -it klabteam/klab bash`, 进入交互式命令行模式。也可以启动 notebook 使用，` docker run -p 8888:8888  klabteam/klab jupyter notebook --ip 0.0.0.0 --port 8888`。
 
 ## 添加自己的包
 
