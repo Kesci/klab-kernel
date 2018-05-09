@@ -14,7 +14,7 @@ base 镜像主要安装的是一些在国内安装比较麻烦的包和工具，
 首先需要构建 base 镜像，但还是建议直接拉下来 `docker pull kesci/base`，因为里面的包都是因为网络原因很难下载的包，然后构建 klab 镜像的话运行
 ```
 cd $Klab-kernel-dir/base/klab
-docker build kesci/klab .
+docker build -t kesci/klab .
 ```
 
 ## 自动化测试
