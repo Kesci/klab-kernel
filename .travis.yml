@@ -2,19 +2,12 @@ sudo: required
 services:
   - docker
 before_install:
-    - docker pull klabteam/base
-    - cd base/klab
-    - docker build -t klabteam/klab .
+    - bash build.sh
 script:
-    - cd ../..
     - sh test.sh
 after_success:
     - docker images
 deploy:
-    - provider: script
-      script: bash docker_push.sh master
-      on:
-        branch: master
     - provider: script
       script: bash docker_push.sh
       on:

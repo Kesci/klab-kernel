@@ -53,7 +53,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 plt.plot(np.linspace(0,1,50), np.random.rand(50))
-plt.savefig("plot.png")
 print("matplotlib.pyplot ok")
 
 

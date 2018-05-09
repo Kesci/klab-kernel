@@ -140,17 +140,17 @@ RUN echo "Install R and R basic packages" && \
     conda install -y \
     'r-essentials=1.5.2' && \
     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
-    #conda config --add channels ataenzer && \
-    #conda config --add channels jsignell && \
-    #conda config --add channels pjones && \
-    #conda config --add channels omgarcia && \
-    #conda config --add channels cgat && \
+    conda config --add channels ataenzer && \
+    conda config --add channels jsignell && \
+    conda config --add channels pjones && \
+    conda config --add channels omgarcia && \
+    conda config --add channels cgat && \
     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
     conda install -y \
     'r-xml=3.98_1.5' \
     'r-tm=0.6_2' \
     'r-rcolorbrewer=1.1_2' \
-    #'r-nnet=7.3.8' \
+    'r-nnet=7.3.8' \
     'r-nlp=0.1_9' \
     'r-ggmap=2.6.1' \
     'r-dplyr=0.5.0' \
