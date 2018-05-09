@@ -87,8 +87,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     nltk==3.2.5 \
     # textstat==0.4.1 \ only have py2 version
     # readability==0.2 \ onyl have py3.2 & py2.7 version
-    #jupyter-pip \
-    #pyecharts==0.3.3 \
+    pyecharts==0.2.7 \
     pygal==2.4.0 \
     cufflinks==0.12.1 \
     scikit-image==0.13.1 \
