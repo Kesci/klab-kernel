@@ -23,7 +23,7 @@ docker build -t kesci/klab .
 
 ## 关于提交Issue和Pull Request的注意事项
 
-线上镜像每做一次更新，将会同步到这个repo，更新内容欢迎查看Wiki。如有更新K-Lab线上镜像的需求，在提交Issue/Pull Request之前，请先查看以下文档确认当前镜像各Kernel内所有package的具体信息。
+线上镜像每做一次更新，将会同步到这个repo，更新内容欢迎查看Wiki。如有更新K-Lab线上镜像的需求，在提交Issue/Pull Request之前，请先查看以下文档确认当前镜像各Kernel内所有package的具体信息。
 
 * [Python2 Kernel](/package_info/Py2_Kernel.md)
 * [Python3_Kernel](/package_info/Py3_Kernel.md)
