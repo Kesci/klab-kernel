@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Kesci/klab-kernel.svg?branch=master)](https://travis-ci.org/Kesci/klab-kernel)
+![Docker Pulls](https://img.shields.io/docker/pulls/klabteam/klab.svg)
 
 # K-Lab 镜像
 

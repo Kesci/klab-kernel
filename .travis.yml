@@ -1,6 +1,6 @@
 sudo: required
 services:
-  - docker
+    - docker
 before_install:
     - bash build.sh
 script:
