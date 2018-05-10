@@ -9,6 +9,10 @@ after_success:
     - docker images
 deploy:
     - provider: script
-      script: bash docker_push.sh
+      script: bash docker_push.sh tags
       on:
         tags: true
+    - provider: script
+      script: bash docker_push.sh master
+      on:
+        branch: master

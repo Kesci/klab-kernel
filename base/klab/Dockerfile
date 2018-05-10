@@ -87,7 +87,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     nltk==3.2.5 \
     # textstat==0.4.1 \ only have py2 version
     # readability==0.2 \ onyl have py3.2 & py2.7 version
-    pyecharts==0.2.7 \
+    # pyecharts==0.2.7 \
     pygal==2.4.0 \
     cufflinks==0.12.1 \
     scikit-image==0.13.1 \
@@ -142,8 +142,13 @@ RUN python2 -m pip install \
     # lightfm==1.14 \
     # k-lab plugin
     klab-autotime==0.0.2 && \
-    python2 -m pip install -U numpy && \
-    python2 -m pip install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.1a2-cp27-cp27mu-linux_x86_64.whl
+    python2 -m pip install -U numpy
+
+# This is a developing branch of paddle 0.11.0
+# python2 -m pip install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.1a2-cp27-cp27mu-linux_x86_64.whl
+# Use stable cud8+cudnn7 0.11.0 paddle
+RUN pip2 install paddlepaddle-gpu==0.11.0
+ENV LD_LIBRARY_PATH /usr/local/lib
 
 WORKDIR /home/$NB_USER/work
 # Clean pip cache
