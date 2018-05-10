@@ -21,3 +21,12 @@ docker build -t kesci/klab .
 ## 自动化测试
 
 在本地运行成功以后，可以把测试加入到测试脚本中，一般的 py3 的测试可以追加到 `test/test_import_py3.py` 下，其他工具类的测试可以加入到 `test/test.sh`。
+
+## 关于提交Issue和Pull Request的注意事项
+
+K-Lab线上镜像每做一次更新，将会同步到这个repo，更新内容欢迎查看Wiki。如有更新K-Lab线上镜像的需求，在提交Issue/Pull Request之前，请先查看以下文档链接确认当前镜像各Kernel内所有package的具体信息。
+* [Python2 Kernel](/package_info/Py2_Kernel.md)
+* [Python3_Kernel](/package_info/Py3_Kernel.md)
+* [R_Kernel](/package_info/R_Kernel.md)
+
+我们的目标是让 K-Lab 成为数据科学的**终极答案，欢迎上船！**
