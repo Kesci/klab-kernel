@@ -2,6 +2,8 @@ sudo: required
 services:
     - docker
 before_install:
+    - sudo useradd -u 1000 kesci
+    - sudo chown -R kesci test/
     - bash build.sh
 script:
     - sh test.sh
