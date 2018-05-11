@@ -12,10 +12,10 @@ K-Lab 镜像是一个集成了 Python2, Python3, R 以及 Anaconda 的集成开�
 ## 添加自己的包
 
 base 镜像主要安装的是一些在国内安装比较麻烦的包和工具，我们提前安装好了，klab 镜像主要是需要 pip 装的包，这样方便修改 Dockerfile，除此之外，镜像源也改成了国内的源，可以更快的安装自己的依赖包。
-首先需要构建 base 镜像，但还是建议直接拉下来 `docker pull kesci/base`，因为里面的包都是因为网络原因很难下载的包，然后构建 klab 镜像的话运行
+首先需要构建 base 镜像，但还是建议直接拉下来 `docker pull klabteam/base`，因为里面的包都是因为网络原因很难下载的包，然后构建 klab 镜像的话运行
 ```
 cd $Klab-kernel-dir/base/klab
-docker build -t kesci/klab .
+docker build -t klabteam/klab .
 ```
 
 ## 自动化测试
