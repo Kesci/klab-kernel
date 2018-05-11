@@ -145,9 +145,8 @@ RUN python2 -m pip install \
     python2 -m pip install -U numpy
 
 # This is a developing branch of paddle 0.11.0
-# python2 -m pip install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.1a2-cp27-cp27mu-linux_x86_64.whl
-# Use stable cud8+cudnn7 0.11.0 paddle
-RUN pip2 install paddlepaddle-gpu==0.11.0
+RUN pip2 install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl
+
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 WORKDIR /home/$NB_USER/work
