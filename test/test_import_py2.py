@@ -37,3 +37,15 @@ probs = paddle.infer(
 
 for i in xrange(len(probs)):
     print "label=" + str(test_label[i][0]) + ", predict=" + str(probs[i][0])
+
+# networkx
+import networkx as nx
+print("networkx ok")
+
+# Tensorflow
+import tensorflow as tf
+print(tf.__version__)
+hello = tf.constant('TensorFlow ok')
+sess = tf.Session()
+print(sess.run(hello))
+print("Tensorflow ok")

@@ -29,6 +29,7 @@ deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main
     # Basic utils
     apt-get install -yqq --no-install-recommends \
     build-essential \
+    cmake \
     bzip2 \
     ca-certificates \
     iptables \
@@ -98,21 +99,17 @@ RUN su -m -l $NB_USER -c '\
     mkdir /home/$NB_USER/work && \
     mkdir /home/$NB_USER/.jupyter && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc && \
-
     # Install conda as kesci
     cd /tmp && \
     mkdir -p $CONDA_DIR && \
     wget --quiet http://7xrkee.com1.z0.glb.clouddn.com/Miniconda3-latest-Linux-x86_64.sh && \
-
     sha256sum Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-latest-Linux-x86_64.sh && \
-
     $CONDA_DIR/bin/conda --version && \
     $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ && \
     $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ && \
     $CONDA_DIR/bin/conda config --set show_channel_urls yes && \
-
     $CONDA_DIR/bin/conda install --quiet --yes conda==4.2.11 && \
     $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
     $CONDA_DIR/bin/conda clean -tipsy \
@@ -167,24 +164,14 @@ RUN echo "Install R and R basic packages" && \
     install.packages('wordcloud'); \
     install.packages('wordcloud2'); \
     install.packages('xgboost'); \
-    install.packages('h2o'); \
     install.packages('plotly'); \
     " \
     && \
     conda clean -tipsy
 
-# Install fonts for matplotlib
-COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
-COPY MicrosoftYaHei.ttf /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/fonts/ttf/
-
 # Make sure /usr/local/ and conda directories belong to user, and install fonts
 USER root
-RUN ls -lh /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/ && \
-    echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'font.family         : sans-serif' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc && \
-    chown $NB_USER /usr/local/bin && \
+RUN chown $NB_USER /usr/local/bin && \
     chown $NB_USER /usr/local/share && \
     chown -R $NB_USER /usr/local/lib && \
     chown -R $NB_USER /opt/conda/lib/python3.5/site-packages/ && \

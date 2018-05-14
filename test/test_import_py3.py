@@ -52,7 +52,8 @@ print("xgboost XGBClassifier: ok")
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-plt.plot(np.linspace(0,1,50), np.random.rand(50))
+plt.title("中文")
+plt.plot((1,2,3),(4,3,-1))
 print("matplotlib.pyplot ok")
 
 
@@ -85,3 +86,10 @@ import seaborn
 print("seaborn ok")
 
 print("test for py3 finished!")
+
+import xlearn as xl
+xl.hello()
+print("xlearn ok")
+
+import h5py
+print("ht5py ok")

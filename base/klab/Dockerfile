@@ -31,7 +31,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     orderedmultidict==0.7.11 \
     smhasher==0.150.1 \
     textblob==0.15.1 \
-    h5py==2.7.1 \
+    h5py==2.8.0.rc1 \
     pudb==2017.1 \
     bokeh==0.12.14 \
     seaborn==0.8.1 \
@@ -93,7 +93,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     scikit-image==0.13.1 \
     bunch==1.0.1 \
     # pytorch-py3.5
-    #http://download.pytorch.org/whl/cu75/torch-0.2.0.post3-cp35-cp35m-manylinux1_x86_64.whl \
+    # http://download.pytorch.org/whl/cu75/torch-0.2.0.post3-cp35-cp35m-manylinux1_x86_64.whl \
     torch==0.3.1 \
     torchvision \
     # klab-plugin
@@ -119,7 +119,7 @@ RUN python2 -m pip install \
     orderedmultidict==0.7.11 \
     smhasher==0.150.1 \
     textblob==0.11.1 \
-    h5py==2.7.1 \
+    h5py==2.8.0.rc1 \
     pudb==2017.1 \
     bokeh==0.12.4 \
     seaborn==0.7.1 \
@@ -144,12 +144,28 @@ RUN python2 -m pip install \
     klab-autotime==0.0.2 && \
     python2 -m pip install -U numpy
 
-# This is a developing branch of paddle 0.11.0
+# This is a stable branch of paddle 0.11.0, based on CUDA8+cudnn7
 RUN pip2 install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl
 
 ENV LD_LIBRARY_PATH /usr/local/lib
 
 WORKDIR /home/$NB_USER/work
-# Clean pip cache
+
 RUN pip install tornado==4.5.3
+
+# staging packages
+RUN pip2 install networkx==2.1
+RUN pip install xlearn==0.31a1
+
+# Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
+COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
+COPY MicrosoftYaHei.ttf /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/fonts/ttf/
+
+RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
+    echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
+    echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
+    echo 'font.family         : sans-serif' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc && \
+    echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc && \
+    echo 'axes.unicode_minus  : False' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc
+
 RUN rm -rf /home/$NB_USER/.cache/pip/*
