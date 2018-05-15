@@ -18,3 +18,7 @@ deploy:
       script: bash docker_push.sh master
       on:
         branch: master
+    - provider: script
+      script: bash docker_push.sh gpu
+      on:
+        branch: gpu-master
