@@ -1,4 +1,4 @@
-import paddle.dataset.uci_housing as uci_housing
+import paddle.v2.dataset.uci_housing as uci_housing
 import paddle.v2 as paddle
 paddle.init(use_gpu=False, trainer_count=1)
 x = paddle.layer.data(name='xx', type=paddle.data_type.dense_vector(13))
@@ -14,11 +14,9 @@ trainer = paddle.trainer.SGD(cost=cost,
                              update_equation=optimizer)
 feeding={'xx': 0, 'yy': 1}
 
-import paddle.reader as reader
-import paddle.batch as batch
 trainer.train(
-    reader=batch(
-        reader.shuffle(
+    reader=paddle.batch(
+        paddle.reader.shuffle(
             uci_housing.train(), buf_size=500),
         batch_size=2),
     feeding=feeding,
@@ -48,4 +46,6 @@ print(tf.__version__)
 hello = tf.constant('TensorFlow ok')
 sess = tf.Session()
 print(sess.run(hello))
-print("Tensorflow ok")
+
+import gensim
+print("gensim ok")
