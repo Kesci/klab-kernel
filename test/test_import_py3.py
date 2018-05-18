@@ -1,3 +1,4 @@
+import sys
 # Tensorflow
 import tensorflow as tf
 print(tf.__version__)
@@ -61,7 +62,7 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 print("plotly ok")
 
-#import theano
+import theano
 print("Theano ok")
 
 import nltk
@@ -71,6 +72,7 @@ print("nltk ok")
 import cv2
 img = cv2.imread('plot.png',0)
 print("OpenCV ok")
+
 
 from skimage.io import imread
 print("skimage ok")
@@ -85,11 +87,15 @@ print("bokeh ok")
 import seaborn
 print("seaborn ok")
 
-print("test for py3 finished!")
-
 import xlearn as xl
 xl.hello()
 print("xlearn ok")
 
+
 import h5py
 print("ht5py ok")
+
+import gensim
+print("gensim ok")
+
+print("test for py3 finished!")
