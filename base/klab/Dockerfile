@@ -127,7 +127,7 @@ RUN python2 -m pip install \
     lightgbm==2.1.0 \
     bunch==1.0.1 \
     # tqdm==4.19.5 \
-    # gensim==3.4.0 \ perhaps have bugs here, install later
+    gensim==3.4.0 \
     nltk==3.2.5 \
     textstat==0.4.1 \
     readability==0.2 \
@@ -154,8 +154,17 @@ WORKDIR /home/$NB_USER/work
 RUN pip install tornado==4.5.3
 
 # staging packages
-RUN pip2 install networkx==2.1
-RUN pip install xlearn==0.31a1
+RUN pip2 install networkx==2.1 \
+    tensorflow==0.12.0
+
+RUN pip install xlearn==0.31a1 \
+    mxnet==1.1.0.post0 \
+    pystan==2.14 \
+    fbprophet==0.2.1
+
+ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
+RUN pip uninstall -y hmmlearn==0.2.0
+RUN pip install -I hmmlearn==0.2.0
 
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
