@@ -144,8 +144,8 @@ RUN python2 -m pip install \
     klab-autotime==0.0.2 && \
     python2 -m pip install -U numpy
 
-# This is a stable branch of paddle 0.11.0, based on CUDA8+cudnn7
-RUN pip2 install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl
+# This is a stable branch of paddle 0.11.0.post87, based on CUDA8+cudnn7
+RUN pip2 install -i https://pypi.org/simple paddlepaddle-gpu==0.11.0.post87
 
 ENV LD_LIBRARY_PATH /usr/local/lib
 
