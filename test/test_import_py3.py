@@ -1,3 +1,4 @@
+import sys
 # Tensorflow
 import tensorflow as tf
 print(tf.__version__)
@@ -56,12 +57,11 @@ plt.title("中文")
 plt.plot((1,2,3),(4,3,-1))
 print("matplotlib.pyplot ok")
 
-
 import plotly.plotly as py
 import plotly.graph_objs as go
 print("plotly ok")
 
-#import theano
+import theano
 print("Theano ok")
 
 import nltk
@@ -71,6 +71,7 @@ print("nltk ok")
 import cv2
 img = cv2.imread('plot.png',0)
 print("OpenCV ok")
+
 
 from skimage.io import imread
 print("skimage ok")
@@ -85,11 +86,41 @@ print("bokeh ok")
 import seaborn
 print("seaborn ok")
 
-print("test for py3 finished!")
-
 import xlearn as xl
 xl.hello()
 print("xlearn ok")
 
+
 import h5py
 print("ht5py ok")
+
+import gensim
+print("gensim ok")
+
+from hmmlearn import hmm
+np.random.seed(42)
+
+model = hmm.GaussianHMM(n_components=3, covariance_type="full")
+model.startprob_ = np.array([0.6, 0.3, 0.1])
+model.transmat_ = np.array([[0.7, 0.2, 0.1],
+                            [0.3, 0.5, 0.2],
+                            [0.3, 0.3, 0.4]])
+model.means_ = np.array([[0.0, 0.0], [3.0, -3.0], [5.0, 10.0]])
+model.covars_ = np.tile(np.identity(2), (3, 1, 1))
+X, Z = model.sample(100)
+print("hmmlearn ok")
+
+#import pystan
+#model_code = 'parameters {real y;} model {y ~ normal(0,1);}'
+#model = pystan.StanModel(model_code=model_code)  # this will take a minute
+#y = model.sampling(n_jobs=1).extract()['y']
+#y.mean()  # should be close to 0
+#print("pystan ok")
+
+from fbprophet import Prophet
+df = pd.read_csv('example_wp_peyton_manning.csv')
+m = Prophet()
+m.fit(df);
+print("fbprophet ok")
+
+print("test for py3 finished!")

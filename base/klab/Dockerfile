@@ -127,7 +127,7 @@ RUN python2 -m pip install \
     lightgbm==2.1.0 \
     bunch==1.0.1 \
     # tqdm==4.19.5 \
-    # gensim==3.4.0 \ perhaps have bugs here, install later
+    gensim==3.4.0 \
     nltk==3.2.5 \
     textstat==0.4.1 \
     readability==0.2 \
@@ -144,8 +144,8 @@ RUN python2 -m pip install \
     klab-autotime==0.0.2 && \
     python2 -m pip install -U numpy
 
-# This is a stable branch of paddle 0.11.0, based on CUDA8+cudnn7
-RUN pip2 install http://oimw2b6jj.bkt.clouddn.com/paddlepaddle_gpu-0.11.0-cp27-cp27mu-linux_x86_64.whl
+# This is a stable branch of paddle 0.11.0.post87, based on CUDA8+cudnn7
+RUN pip2 install -i https://pypi.org/simple paddlepaddle-gpu==0.11.0.post87
 
 ENV LD_LIBRARY_PATH /usr/local/lib
 
@@ -154,8 +154,17 @@ WORKDIR /home/$NB_USER/work
 RUN pip install tornado==4.5.3
 
 # staging packages
-RUN pip2 install networkx==2.1
-RUN pip install xlearn==0.31a1
+RUN pip2 install networkx==2.1 \
+    tensorflow==0.12.0
+
+RUN pip install xlearn==0.31a1 \
+    mxnet==1.1.0.post0 \
+    pystan==2.14 \
+    fbprophet==0.2.1
+
+ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
+RUN pip uninstall -y hmmlearn==0.2.0
+RUN pip install -I hmmlearn==0.2.0
 
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
