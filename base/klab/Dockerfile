@@ -1,4 +1,4 @@
-FROM klabteam/base:latest
+FROM klabteam/base:gpu-97
 
 MAINTAINER K-Lab Authors <service@kesci.com>
 
@@ -25,7 +25,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     theano==1.0.1 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.6.0 \
+    tensorflow-gpu==1.8.0 \
     # biopython==1.70 \ will raise error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
@@ -143,9 +143,6 @@ RUN python2 -m pip install \
     # k-lab plugin
     klab-autotime==0.0.2 && \
     python2 -m pip install -U numpy
-
-# This is a stable branch of paddle 0.11.0.post87, based on CUDA8+cudnn7
-RUN pip2 install -i https://pypi.org/simple paddlepaddle-gpu==0.11.0.post87
 
 ENV LD_LIBRARY_PATH /usr/local/lib
 
