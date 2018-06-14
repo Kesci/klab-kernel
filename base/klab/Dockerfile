@@ -25,7 +25,8 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     theano==1.0.1 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.6.0 \
+    tensorflow==1.8.0 \
+    jupyter-tensorboard==0.1.6 \
     # biopython==1.70 \ will raise error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
@@ -76,11 +77,10 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     netaddr==0.7.19 \
     bs4==0.0.1 \
     jieba==0.39 \
-    hmmlearn==0.2.0 \
     lightgbm==2.1.0 \
     xlrd==1.0.0 \
     h2o==3.18.0.4 \
-    mxnet==1.1.0 \
+    mxnet==1.1.0.post0 \
     wordcloud==1.4.1 \
     klab-autotime==0.0.2 \
     gensim==3.4.0 \
@@ -92,10 +92,10 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     cufflinks==0.12.1 \
     scikit-image==0.13.1 \
     bunch==1.0.1 \
-    # pytorch-py3.5
-    # http://download.pytorch.org/whl/cu75/torch-0.2.0.post3-cp35-cp35m-manylinux1_x86_64.whl \
+    http://download.pytorch.org/whl/cpu/torch-0.4.0-cp35-cp35m-linux_x86_64.whl \
     torch==0.3.1 \
     torchvision \
+    lxml==4.2.1 \
     # klab-plugin
     && \
     jupyter nbextension install --user --py vega
@@ -113,7 +113,8 @@ RUN python2 -m pip install \
     keras==2.1.5 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.6.0 \
+    tensorflow==1.8.0 \
+    jupyter-tensorboard=0.1.6 \
     # biopython==1.68 \ will rasie error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
@@ -133,19 +134,15 @@ RUN python2 -m pip install \
     readability==0.2 \
     # scikit-image==0.13.1 \ install later
     beautifulsoup4==4.6.0 \
-    lxml==4.1.1 \
+    lxml==4.2.1 \
     jieba==0.39 \
     # scikit-multilearn==0.0.5 \
     # scikit-optimize==0.5.1 \
     # scikit-plot==0.3.4 \
     # scikit-surprise==1.0.5 \
-    # lightfm==1.14 \
     # k-lab plugin
     klab-autotime==0.0.2 && \
     python2 -m pip install -U numpy
-
-# This is a stable branch of paddle 0.11.0, based on CUDA8+cudnn7
-RUN pip2 install paddlepaddle==0.11.0
 
 ENV LD_LIBRARY_PATH /usr/local/lib
 
@@ -155,16 +152,16 @@ RUN pip install tornado==4.5.3
 
 # staging packages
 RUN pip2 install networkx==2.1 \
-    tensorflow==0.12.0
+    catboost==0.8.1.1
 
 RUN pip install xlearn==0.31a1 \
-    mxnet==1.1.0.post0 \
     pystan==2.14 \
-    fbprophet==0.2.1
+    networkx==2.1 \
+    fbprophet==0.2.1 \
+    catboost==0.8.1.1
 
 ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
-RUN pip uninstall -y hmmlearn==0.2.0
-RUN pip install -I hmmlearn==0.2.0
+RUN pip install hmmlearn==0.2.0
 
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
