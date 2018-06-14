@@ -1,6 +1,6 @@
 import paddle.v2.dataset.uci_housing as uci_housing
 import paddle.v2 as paddle
-paddle.init(use_gpu=False, trainer_count=1)
+paddle.init(use_gpu=True, trainer_count=1)
 x = paddle.layer.data(name='xx', type=paddle.data_type.dense_vector(13))
 y_predict = paddle.layer.fc(input=x,
                                 size=1,
