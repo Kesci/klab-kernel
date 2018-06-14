@@ -113,8 +113,8 @@ RUN python2 -m pip install \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
     tensorflow==1.8.0 \
-    jupyter-tensorboard=0.1.6 \
-    # biopython==1.68 \ will rasie error
+    jupyter-tensorboard==0.1.6 \
+    # biopython==1.68 \ will raise error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
     smhasher==0.150.1 \
