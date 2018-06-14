@@ -93,7 +93,6 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     scikit-image==0.13.1 \
     bunch==1.0.1 \
     http://download.pytorch.org/whl/cpu/torch-0.4.0-cp35-cp35m-linux_x86_64.whl \
-    torch==0.3.1 \
     torchvision \
     lxml==4.2.1 \
     # klab-plugin
