@@ -110,7 +110,7 @@ RUN python2 -m pip install \
     keras==2.1.5 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==0.12.0 \
+    tensorflow==1.8.0 \
     # biopython==1.68 \ will rasie error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
