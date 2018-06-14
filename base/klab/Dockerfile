@@ -151,13 +151,13 @@ RUN pip install tornado==4.5.3
 
 # staging packages
 RUN pip2 install networkx==2.1 \
-    catboost==0.8.1.1
+    catboost==0.8.1
 
 RUN pip install xlearn==0.31a1 \
     pystan==2.14 \
     networkx==2.1 \
     fbprophet==0.2.1 \
-    catboost==0.8.1.1 \
+    catboost==0.8.1 \
     mlxtend==0.12.0
 
 ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
