@@ -25,8 +25,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     theano==1.0.1 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.8.0 \
-    jupyter-tensorboard==0.1.6 \
+    tensorflow==1.9.0 \
     # biopython==1.70 \ will raise error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
@@ -112,8 +111,7 @@ RUN python2 -m pip install \
     keras==2.1.5 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.8.0 \
-    jupyter-tensorboard==0.1.6 \
+    tensorflow==1.9.0 \
     # biopython==1.68 \ will raise error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
@@ -156,9 +154,13 @@ RUN pip2 install networkx==2.1 \
 RUN pip install xlearn==0.31a1 \
     pystan==2.14 \
     networkx==2.1 \
-    fbprophet==0.2.1 \
+    fbprophet \
     catboost==0.8.1 \
-    mlxtend==0.12.0
+    mlxtend==0.12.0 \
+    librosa==0.6.1 \
+    python_speech_features==0.6 \
+    xlrd==1.1.0 \
+    sympy==1.2
 
 ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
 RUN pip install hmmlearn==0.2.0
