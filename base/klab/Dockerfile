@@ -94,6 +94,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     http://download.pytorch.org/whl/cpu/torch-0.4.0-cp35-cp35m-linux_x86_64.whl \
     torchvision \
     lxml==4.2.1 \
+    python_speech_features==0.6 \
     # klab-plugin
     && \
     jupyter nbextension install --user --py vega
