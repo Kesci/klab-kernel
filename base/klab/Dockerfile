@@ -160,7 +160,9 @@ RUN pip install xlearn==0.31a1 \
     librosa==0.6.1 \
     python_speech_features==0.6 \
     xlrd==1.1.0 \
-    sympy==1.2
+    sympy==1.2 \
+    nltk==3.3 \
+    NiftyNet==0.3.0
 
 ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
 RUN pip install hmmlearn==0.2.0
