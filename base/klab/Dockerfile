@@ -79,6 +79,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     lightgbm==2.1.0 \
     xlrd==1.0.0 \
     h2o==3.18.0.4 \
+    mxnet==1.1.0.post0 \
     wordcloud==1.4.1 \
     klab-autotime==0.0.2 \
     gensim==3.4.0 \
@@ -93,6 +94,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     # pytorch-py3.5
     http://download.pytorch.org/whl/cu90/torch-0.4.0-cp35-cp35m-linux_x86_64.whl \
     torchvision \
+    lxml==4.2.1 \
     # klab-plugin
     && \
     jupyter nbextension install --user --py vega
@@ -110,8 +112,7 @@ RUN python2 -m pip install \
     keras==2.1.5 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.8.0 \
-    # biopython==1.68 \ will rasie error
+    tensorflow==1.9.0 \
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
     smhasher==0.150.1 \
@@ -130,13 +131,12 @@ RUN python2 -m pip install \
     readability==0.2 \
     # scikit-image==0.13.1 \ install later
     beautifulsoup4==4.6.0 \
-    lxml==4.1.1 \
+    lxml==4.2.1 \
     jieba==0.39 \
     # scikit-multilearn==0.0.5 \
     # scikit-optimize==0.5.1 \
     # scikit-plot==0.3.4 \
     # scikit-surprise==1.0.5 \
-    # lightfm==1.14 \
     # k-lab plugin
     klab-autotime==0.0.2 && \
     python2 -m pip install -U numpy
@@ -148,12 +148,21 @@ WORKDIR /home/$NB_USER/work
 RUN pip install tornado==4.5.3
 
 # staging packages
-RUN pip2 install networkx==2.1
+RUN pip2 install networkx==2.1 \
+    catboost==0.8.1
 
-RUN pip install pystan==2.14 \
-    && pip install xlearn==0.31a1 \
-    mxnet==1.1.0.post0 \
-    fbprophet==0.2.1
+RUN pip install xlearn==0.31a1 \
+    pystan==2.14 \
+    networkx==2.1 \
+    fbprophet \
+    catboost==0.8.1 \
+    mlxtend==0.12.0 \
+    librosa==0.6.1 \
+    python_speech_features==0.6 \
+    xlrd==1.1.0 \
+    sympy==1.2 \
+    nltk==3.3 \
+    NiftyNet==0.3.0
 
 ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
 RUN pip install hmmlearn==0.2.0
