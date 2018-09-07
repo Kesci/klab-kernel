@@ -123,4 +123,22 @@ m = Prophet()
 m.fit(df);
 print("fbprophet ok")
 
+import lxml
+print("lxml ok")
+
+import catboost
+print("catboost ok")
+
+import librosa
+print("librosa ok")
+
+import python_speech_features
+print("python_seech_features ok")
+
+import xlrd
+print("xlrd ok")
+
+import sympy
+print("sympy ok")
+
 print("test for py3 finished!")
