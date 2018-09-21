@@ -83,7 +83,6 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     wordcloud==1.4.1 \
     klab-autotime==0.0.2 \
     gensim==3.4.0 \
-    nltk==3.2.5 \
     # textstat==0.4.1 \ only have py2 version
     # readability==0.2 \ onyl have py3.2 & py2.7 version
     # pyecharts==0.2.7 \
@@ -94,6 +93,17 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     http://download.pytorch.org/whl/cpu/torch-0.4.0-cp35-cp35m-linux_x86_64.whl \
     torchvision \
     lxml==4.2.1 \
+    xlearn==0.31a1 \
+    pystan==2.14 \
+    networkx==2.1 \
+    fbprophet \
+    catboost==0.8.1 \
+    mlxtend==0.12.0 \
+    librosa==0.6.1 \
+    python_speech_features==0.6 \
+    sympy==1.2 \
+    nltk==3.3 \
+    NiftyNet==0.3.0 \
     # klab-plugin
     && \
     jupyter nbextension install --user --py vega
@@ -111,7 +121,7 @@ RUN python2 -m pip install \
     keras==2.1.5 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.9.0 \
+    tensorflow==1.2.0 \
     # biopython==1.68 \ will raise error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
@@ -120,7 +130,6 @@ RUN python2 -m pip install \
     h5py==2.8.0.rc1 \
     pudb==2017.1 \
     bokeh==0.12.4 \
-    seaborn==0.7.1 \
     plotly==2.0.1 \
     lightgbm==2.1.0 \
     bunch==1.0.1 \
@@ -133,6 +142,8 @@ RUN python2 -m pip install \
     beautifulsoup4==4.6.0 \
     lxml==4.2.1 \
     jieba==0.39 \
+    networkx==2.1 \
+    catboost==0.8.1 \
     # scikit-multilearn==0.0.5 \
     # scikit-optimize==0.5.1 \
     # scikit-plot==0.3.4 \
@@ -141,31 +152,11 @@ RUN python2 -m pip install \
     klab-autotime==0.0.2 && \
     python2 -m pip install -U numpy
 
-ENV LD_LIBRARY_PATH /usr/local/lib
-
-WORKDIR /home/$NB_USER/work
-
-RUN pip install tornado==4.5.3
-
-# staging packages
-RUN pip2 install networkx==2.1 \
-    catboost==0.8.1
-
-RUN pip install xlearn==0.31a1 \
-    pystan==2.14 \
-    networkx==2.1 \
-    fbprophet \
-    catboost==0.8.1 \
-    mlxtend==0.12.0 \
-    librosa==0.6.1 \
-    python_speech_features==0.6 \
-    xlrd==1.1.0 \
-    sympy==1.2 \
-    nltk==3.3 \
-    NiftyNet==0.3.0
-
+ENV LD_LIBRARY_PATH /usr/local/lib:/opt/conda/lib
 ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
-RUN pip install hmmlearn==0.2.0
+RUN pip install \
+    tornado==4.5.3 \
+    hmmlearn==0.2.0
 
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
@@ -173,9 +164,8 @@ COPY MicrosoftYaHei.ttf /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-da
 
 RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'font.family         : sans-serif' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'axes.unicode_minus  : False' >> /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc
+    echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc
 
 RUN rm -rf /home/$NB_USER/.cache/pip/*
+
+WORKDIR /home/$NB_USER/work
