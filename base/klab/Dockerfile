@@ -1,4 +1,4 @@
-FROM klabteam/base:gpu-97
+FROM klabteam/base:gpu-97-v0.0.1
 
 MAINTAINER K-Lab Authors <service@kesci.com>
 
