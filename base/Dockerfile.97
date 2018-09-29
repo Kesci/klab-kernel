@@ -36,6 +36,7 @@ deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main
     locales \
     sudo \
     wget \
+    strace \
     # Install all OS dependencies for fully functional notebook server
     build-essential \
     emacs \
@@ -97,6 +98,8 @@ ENV PATH=$PATH:$J2SDKDIR/bin:$J2REDIR/bin:$DERBY_HOME/bin
 # Setup kesci home directory and install conda
 RUN su -m -l $NB_USER -c '\
     mkdir /home/$NB_USER/work && \
+    mkdir /home/$NB_USER/large-work && \
+    mkdir /home/$NB_USER/input && \
     mkdir /home/$NB_USER/.jupyter && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc && \
     # Install conda as kesci
@@ -109,6 +112,9 @@ RUN su -m -l $NB_USER -c '\
     $CONDA_DIR/bin/conda --version && \
     $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ && \
     $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ && \
+    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
+    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
+    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/menpo/ && \
     $CONDA_DIR/bin/conda config --set show_channel_urls yes && \
     $CONDA_DIR/bin/conda install --quiet --yes conda==4.2.11 && \
     $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
@@ -204,10 +210,8 @@ RUN chown $NB_USER /usr/local/bin && \
     mkdir -p /home/$NB_USER/.cache && chown $NB_USER -R /home/$NB_USER/.cache && \
     rm -rf /root/.cache/pip/* && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    chown -R $NB_USER:users /home/$NB_USER/.jupyter && \
-    chown -R $NB_USER /home/$NB_USER/work && \
-    mkdir -p /home/$NB_USER/input && \
-    chown -R $NB_USER:users /home/$NB_USER/input && \
-    rm -rf /home/$NB_USER/.cache/matplotlib/
+    rm -rf /home/$NB_USER/.cache/matplotlib/ && \
+    # Allow kesci run sudo apt-get
+    echo "kesci ALL=NOPASSWD: /usr/bin/apt-get" > /etc/sudoers.d/kesci && chmod 0400 /etc/sudoers.d/kesci
 
 WORKDIR /home/$NB_USER/work
