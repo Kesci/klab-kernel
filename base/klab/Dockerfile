@@ -6,12 +6,11 @@ ENV NB_USER kesci
 
 USER $NB_USER
 
+# workaround for "Cannot remove entries from nonexistent file /opt/conda/lib/python3.5/site-packages/easy-install.pth"
+#RUN mkdir -p /opt/conda/lib/python3.5/site-packages && touch /opt/conda/lib/python3.5/site-packages/easy-install.pth && touch /opt/conda/lib/python3.5/site-packages/urllib3-1.12-py3.5.egg
+
 # Install Jupyter and Py3 packages
 RUN mkdir -p ~/.pip/ && \
-# Add tuna mirror pypi souce index
-    echo "[global]\n\
-index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
-    pip install --upgrade pip && \
     pip install jupyter && \
     # Basic python packages
     pip install \
@@ -25,7 +24,7 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     theano==1.0.1 \
     xgboost==0.7.post4 \
     statsmodels==0.8.0 \
-    tensorflow==1.9.0 \
+    tensorflow==1.12.0 \
     # biopython==1.70 \ will raise error
     line_profiler==2.0 \
     orderedmultidict==0.7.11 \
@@ -81,7 +80,6 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     h2o==3.18.0.4 \
     mxnet==1.1.0.post0 \
     wordcloud==1.4.1 \
-    klab-autotime==0.0.2 \
     gensim==3.4.0 \
     # textstat==0.4.1 \ only have py2 version
     # readability==0.2 \ onyl have py3.2 & py2.7 version
@@ -90,13 +88,12 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     cufflinks==0.12.1 \
     scikit-image==0.13.1 \
     bunch==1.0.1 \
-    http://download.pytorch.org/whl/cpu/torch-0.4.0-cp35-cp35m-linux_x86_64.whl \
+    http://download.pytorch.org/whl/cpu/torch-0.4.1-cp35-cp35m-linux_x86_64.whl \
     torchvision \
     lxml==4.2.1 \
-    xlearn==0.31a1 \
+    xlearn==0.40a1 \
     pystan==2.14 \
     networkx==2.1 \
-    fbprophet \
     catboost==0.8.1 \
     mlxtend==0.12.0 \
     librosa==0.6.1 \
@@ -105,7 +102,9 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     nltk==3.3 \
     NiftyNet==0.3.0 \
     # klab-plugin
+    klab-autotime==0.0.2 \
     && \
+    pip install fbprophet && \
     jupyter nbextension install --user --py vega
 
 ENV KERAS_BACKEND tensorflow
@@ -157,6 +156,10 @@ ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS
 RUN pip install \
     tornado==4.5.3 \
     hmmlearn==0.2.0
+
+# Add tuna mirror pypi souce index
+RUN echo "[global]\n\
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
 
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/

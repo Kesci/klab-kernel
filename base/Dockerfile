@@ -81,31 +81,22 @@ deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main
     gfortran \
     graphviz \
     libxml2-dev \
-    xz-utils
-
-# Install Java8
-RUN wget http://oimw2b6jj.bkt.clouddn.com/jdk-8u171-linux-x64.tar.gz && \
-    mkdir /usr/lib/jvm && \
-    tar zxf jdk-8u171-linux-x64.tar.gz -C /usr/lib/jvm && \
-    rm jdk-8u171-linux-x64.tar.gz
-
-ENV J2SDKDIR="/usr/lib/jvm/jdk1.8.0_171"
-ENV J2REDIR="/usr/lib/jvm/jdk1.8.0_171/jre"
-ENV JAVA_HOME="/usr/lib/jvm/jdk1.8.0_171"
-ENV DERBY_HOME="/usr/lib/jvm/jdk1.8.0_171/db"
-ENV PATH=$PATH:$J2SDKDIR/bin:$J2REDIR/bin:$DERBY_HOME/bin
+    xz-utils \
+    libudunits2-dev \
+    default-jdk && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Setup kesci home directory and install conda
 RUN su -m -l $NB_USER -c '\
     mkdir /home/$NB_USER/work && \
-    mkdir /home/$NB_USER/large-work && \
     mkdir /home/$NB_USER/input && \
     mkdir /home/$NB_USER/.jupyter && \
     echo "cacert=/etc/ssl/certs/ca-certificates.crt" > /home/$NB_USER/.curlrc && \
     # Install conda as kesci
     cd /tmp && \
     mkdir -p $CONDA_DIR && \
-    wget --quiet http://7xrkee.com1.z0.glb.clouddn.com/Miniconda3-latest-Linux-x86_64.sh && \
+    wget https://open-cdn.kesci.com/Miniconda3-latest-Linux-x86_64.sh && \
     sha256sum Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-latest-Linux-x86_64.sh && \
@@ -133,6 +124,27 @@ RUN cd /tmp && \
     chown $NB_USER /usr/local/bin && \
     chown $NB_USER /usr/local/share && \
     chown -R $NB_USER /usr/local/lib/python2.7
+
+# Julia dependencies
+# install Julia packages in /opt/julia instead of $HOME
+ENV JULIA_DEPOT_PATH=/opt/julia
+ENV JULIA_PKGDIR=/opt/julia
+ENV JULIA_VERSION=1.0.0
+
+RUN mkdir /opt/julia-${JULIA_VERSION} && \
+    cd /tmp && \
+    wget -q https://julialang-s3.julialang.org/bin/linux/x64/`echo ${JULIA_VERSION} | cut -d. -f 1,2`/julia-${JULIA_VERSION}-linux-x86_64.tar.gz && \
+    echo "bea4570d7358016d8ed29d2c15787dbefaea3e746c570763e7ad6040f17831f3 *julia-${JULIA_VERSION}-linux-x86_64.tar.gz" | sha256sum -c - && \
+    tar xzf julia-${JULIA_VERSION}-linux-x86_64.tar.gz -C /opt/julia-${JULIA_VERSION} --strip-components=1 && \
+    rm /tmp/julia-${JULIA_VERSION}-linux-x86_64.tar.gz
+RUN ln -fs /opt/julia-*/bin/julia /usr/local/bin/julia
+
+# Show Julia where conda libraries are \
+RUN mkdir /etc/julia && \
+    echo "push!(Libdl.DL_LOAD_PATH, \"$CONDA_DIR/lib\")" >> /etc/julia/juliarc.jl && \
+    # Create JULIA_PKGDIR \
+    mkdir $JULIA_PKGDIR && \
+    chown $NB_USER $JULIA_PKGDIR
 
 USER $NB_USER
 
@@ -174,6 +186,26 @@ RUN echo "Install R and R basic packages" && \
     " \
     && \
     conda clean -tipsy
+
+# Add Julia packages. Only add HDF5 if this is not a test-only build since
+# it takes roughly half the entire build time of all of the images on Travis
+# to add this one package and often causes Travis to timeout.
+#
+# Install IJulia as jovyan and then move the kernelspec out
+# to the system share location. Avoids problems with runtime UID change not
+# taking effect properly on the .local folder in the jovyan home dir.
+RUN julia -e 'import Pkg; Pkg.update()' && \
+    (test $TEST_ONLY_BUILD || julia -e 'import Pkg; Pkg.add("HDF5")') && \
+    julia -e 'import Pkg; Pkg.add("Gadfly")' && \
+    julia -e 'import Pkg; Pkg.add("RDatasets")' && \
+    julia -e 'import Pkg; Pkg.add("IJulia")' && \
+    # Precompile Julia packages \
+    julia -e 'using IJulia' && \
+    # move kernelspec out of home \
+    mkdir -p $CONDA_DIR/share/jupyter/kernels/ && \
+    mv $HOME/.local/share/jupyter/kernels/julia* $CONDA_DIR/share/jupyter/kernels/ && \
+    chmod -R go+rx $CONDA_DIR/share/jupyter && \
+    rm -rf $HOME/.local
 
 # Make sure /usr/local/ and conda directories belong to user.
 USER root
