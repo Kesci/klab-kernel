@@ -7,6 +7,16 @@ if [ "$1" == "tags" ]; then
 	tag=$(git describe --abbrev=0 --tags)
 fi
 
+diffname=""
+if [[ $TRAVIS_PULL_REQUEST ]]
+then
+	git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+	git fetch
+	diffname=$(git diff --name-only  origin/master)
+else
+	diffname=$(diff HEAD~1 --name-only)
+fi
+
 if [[ $diffname =~ "base/Dockerfile" ]]
 then
 	echo "base file changed, push it."
