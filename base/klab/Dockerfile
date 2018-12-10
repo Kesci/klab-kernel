@@ -88,7 +88,7 @@ RUN mkdir -p ~/.pip/ && \
     cufflinks==0.12.1 \
     scikit-image==0.13.1 \
     bunch==1.0.1 \
-    http://download.pytorch.org/whl/cpu/torch-0.4.1-cp35-cp35m-linux_x86_64.whl \
+    http://download.pytorch.org/whl/cpu/torch-1.0.0-cp35-cp35m-linux_x86_64.whl
     torchvision \
     lxml==4.2.1 \
     xlearn==0.40a1 \
@@ -155,7 +155,9 @@ ENV LD_LIBRARY_PATH /usr/local/lib:/opt/conda/lib
 ENV CFLAGS="-I /opt/conda/lib/python3.5/site-packages/numpy/core/include $CFLAGS"
 RUN pip install \
     tornado==4.5.3 \
-    hmmlearn==0.2.0
+    hmmlearn==0.2.0 \
+    scikit-image==0.14.1 \
+    onnx==1.3.0
 
 # Add tuna mirror pypi souce index
 RUN echo "[global]\n\

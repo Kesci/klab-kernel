@@ -141,4 +141,10 @@ print("xlrd ok")
 import sympy
 print("sympy ok")
 
+import onnx
+print("onnx ok")
+
+import skimage
+print("skimage ok")
+
 print("test for py3 finished!")

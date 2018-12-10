@@ -8,13 +8,13 @@ if [ "$1" == "tags" ]; then
 fi
 
 diffname=""
-if [[ $TRAVIS_PULL_REQUEST ]]
+if [[ $TRAVIS_PULL_REQUEST = true ]]
 then
 	git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 	git fetch
 	diffname=$(git diff --name-only  origin/master)
 else
-	diffname=$(diff HEAD~1 --name-only)
+	diffname=$(git diff --name-only HEAD~1)
 fi
 
 if [[ $diffname =~ "base/Dockerfile" ]]
