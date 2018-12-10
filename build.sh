@@ -6,10 +6,12 @@ diffname=""
 echo "$TRAVIS_PULL_REQUEST"
 if [[ $TRAVIS_PULL_REQUEST ]]
 then
+	echo "pull request"
 	git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 	git fetch
 	diffname=$(git diff --name-only  origin/master)
 else
+	echo "master branch"
 	diffname=$(diff HEAD~1 --name-only)
 	echo "$diffname"
 fi
