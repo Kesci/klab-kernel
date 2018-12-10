@@ -7,8 +7,23 @@ if [ "$1" == "tags" ]; then
 	tag=$(git describe --abbrev=0 --tags)
 fi
 
-docker tag  klabteam/base klabteam/base:$tag
-docker push klabteam/base:$tag
+if [[ $diffname =~ "base/Dockerfile" ]]
+then
+	echo "base file changed, push it."
+	( cd base && docker build -t klabteam/base . )
+        docker tag  klabteam/base klabteam/base:$tag
+        docker push klabteam/base:$tag
+        docker push klabteam/base:latest
+else
+	echo "base file not changed, skip it."
+fi
 
-docker tag  klabteam/klab klabteam/klab:$tag
-docker push klabteam/klab:$tag
+if [[ $diffname =~ "base/klab/Dockerfile" ]]
+then
+	echo "klab file changed, push it."
+        docker tag  klabteam/klab klabteam/klab:$tag
+        docker push klabteam/klab:$tag
+        docker push klabteam/klab:latest
+else
+	echo "klab file not changed, skip it."
+fi
