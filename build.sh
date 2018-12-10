@@ -9,7 +9,7 @@ then
 	git fetch
 	diffname=$(git diff --name-only  origin/master)
 else
-	diffname=$(diff HEAD~1 --name-only)
+	diffname=$(git diff HEAD~1 --name-only)
 fi
 
 if [[ $diffname =~ "base/Dockerfile" ]]
