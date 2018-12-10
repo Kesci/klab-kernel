@@ -3,6 +3,7 @@ set -e
 set -o pipefail
 
 diffname=""
+echo "$TRAVIS_PULL_REQUEST"
 if [[ $TRAVIS_PULL_REQUEST ]]
 then
 	git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
