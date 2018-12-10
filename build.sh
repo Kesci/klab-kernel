@@ -10,6 +10,7 @@ then
 	diffname=$(git diff --name-only  origin/master)
 else
 	diffname=$(diff HEAD~1 --name-only)
+	echo "$diffname"
 fi
 
 if [[ $diffname =~ "base/Dockerfile" ]]
