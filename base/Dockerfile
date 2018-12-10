@@ -25,9 +25,9 @@ deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-backports main contri
 deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-updates main contrib non-free \n\
 deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main contrib non-free\n" > /etc/apt/sources.list && \
     # Update
-    apt-get update && apt-get -yq dist-upgrade && \
+    apt-get update && apt-get -yqq dist-upgrade && \
     # Basic utils
-    apt-get install -yq --no-install-recommends \
+    apt-get install -yqq --no-install-recommends \
     build-essential \
     cmake \
     bzip2 \
