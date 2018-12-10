@@ -4,8 +4,8 @@ services:
 before_install:
     - sudo useradd -u 1000 kesci
     - sudo chown -R kesci test/
-    - bash build.sh
 script:
+    - bash build.sh
     - sh test.sh
 after_success:
     - docker images

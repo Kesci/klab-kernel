@@ -2,10 +2,15 @@
 set -e
 set -o pipefail
 
-git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-git fetch
-diffname=$(git diff --name-only  origin/master)
-echo "changed files $diffname"
+diffname=""
+if [[ $TRAVIS_PULL_REQUEST ]]
+then
+	git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+	git fetch
+	diffname=$(git diff --name-only  origin/master)
+else
+	diffname=$(diff HEAD~1 --name-only)
+fi
 
 if [[ $diffname =~ "base/Dockerfile" ]]
 then
@@ -14,11 +19,11 @@ then
 else
 	echo "base file not changed, skip it."
 fi
-
 if [[ $diffname =~ "base/klab/Dockerfile" ]]
 then
 	echo "klab file changed, build it."
-        # ( cd base/klab && docker build -t klabteam/klab . )
+	#( cd base/klab && docker build -t klabteam/klab . )
 else
 	echo "klab file not changed, skip it."
 fi
+
