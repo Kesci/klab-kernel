@@ -159,16 +159,14 @@ RUN pip install \
     scikit-image==0.14.1 \
     onnx==1.3.0
 
-# Add tuna mirror pypi souce index
-RUN echo "[global]\n\
-index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
-
-# Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
+# Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed), add tuna mirror pypi souce index
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
 
 RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc
+    echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
+    echo "[global]\n\
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf
 
 RUN rm -rf /home/$NB_USER/.cache/pip/*
 
