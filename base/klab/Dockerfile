@@ -165,7 +165,6 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
 
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
-COPY MicrosoftYaHei.ttf /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/fonts/ttf/
 
 RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
