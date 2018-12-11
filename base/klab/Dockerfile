@@ -88,7 +88,7 @@ RUN mkdir -p ~/.pip/ && \
     cufflinks==0.12.1 \
     scikit-image==0.13.1 \
     bunch==1.0.1 \
-    http://download.pytorch.org/whl/cpu/torch-1.0.0-cp35-cp35m-linux_x86_64.whl
+    http://download.pytorch.org/whl/cpu/torch-1.0.0-cp35-cp35m-linux_x86_64.whl \
     torchvision \
     lxml==4.2.1 \
     xlearn==0.40a1 \
@@ -159,17 +159,14 @@ RUN pip install \
     scikit-image==0.14.1 \
     onnx==1.3.0
 
-# Add tuna mirror pypi souce index
-RUN echo "[global]\n\
-index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
-
-# Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed)
+# Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed), add tuna mirror pypi souce index
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
-COPY MicrosoftYaHei.ttf /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/fonts/ttf/
 
 RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
-    echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc
+    echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/matplotlibrc && \
+    echo "[global]\n\
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf
 
 RUN rm -rf /home/$NB_USER/.cache/pip/*
 

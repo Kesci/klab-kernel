@@ -22,7 +22,7 @@ fi
 if [[ $diffname =~ "base/klab/Dockerfile" ]]
 then
 	echo "klab file changed, build it."
-	#( cd base/klab && docker build -t klabteam/klab . )
+	( cd base/klab && docker build -t klabteam/klab . )
 else
 	echo "klab file not changed, skip it."
 fi
