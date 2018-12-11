@@ -88,7 +88,7 @@ RUN mkdir -p ~/.pip/ && \
     cufflinks==0.12.1 \
     scikit-image==0.13.1 \
     bunch==1.0.1 \
-    http://download.pytorch.org/whl/cpu/torch-1.0.0-cp35-cp35m-linux_x86_64.whl
+    http://download.pytorch.org/whl/cpu/torch-1.0.0-cp35-cp35m-linux_x86_64.whl \
     torchvision \
     lxml==4.2.1 \
     xlearn==0.40a1 \
