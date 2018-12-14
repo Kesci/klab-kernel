@@ -167,7 +167,6 @@ RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
     julia -e 'import Pkg; Pkg.add("Missings")' && \
     julia -e 'import Pkg; Pkg.add("PyCall")' && \
     julia -e 'import Pkg; Pkg.add("LaTeXStrings")' && \
-    julia -e 'import Pkg; Pkg.add("PlotRecipes")' && \
     julia -e 'import Pkg; Pkg.add("Flux")' && \
     julia -e 'import Pkg; Pkg.add("Plots")' && \
     julia -e 'import Pkg; Pkg.add("PyPlot")' && \
