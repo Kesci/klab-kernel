@@ -159,6 +159,26 @@ RUN pip install \
     scikit-image==0.14.1 \
     onnx==1.3.0
 
+# julia commonly used packages
+RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
+    julia -e 'import Pkg; Pkg.add("Distributions")' && \
+    julia -e 'import Pkg; Pkg.add("StatPlots")' && \
+    julia -e 'import Pkg; Pkg.add("Query")' && \
+    julia -e 'import Pkg; Pkg.add("Missings")' && \
+    julia -e 'import Pkg; Pkg.add("PyCall")' && \
+    julia -e 'import Pkg; Pkg.add("LaTeXStrings")' && \
+    julia -e 'import Pkg; Pkg.add("Flux")' && \
+    julia -e 'import Pkg; Pkg.add("Plots")' && \
+    julia -e 'import Pkg; Pkg.add("PyPlot")' && \
+    julia -e 'import Pkg; Pkg.add("RDatasets")' && \
+    julia -e 'import Pkg; Pkg.add("Zygote")' && \
+    julia -e 'import Pkg; Pkg.add("Knet")' && \
+    julia -e 'import Pkg; Pkg.add("DataFrames")' && \
+    julia -e 'import Pkg; Pkg.add("NNlib")' && \
+    julia -e 'import Pkg; Pkg.add("Turing")' && \
+    julia -e 'import Pkg; Pkg.add("UnicodePlots")' && \
+    julia -e 'import Pkg; Pkg.add("PlotlyJS")'
+    
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed), add tuna mirror pypi souce index
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.5/site-packages/matplotlib/mpl-data/fonts/ttf/
 
