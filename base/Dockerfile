@@ -16,16 +16,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 # Install prerequisites
-RUN echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie main contrib non-free \n\
-deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-backports main contrib non-free \n\
-deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-updates main contrib non-free \n\
-deb http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-backports main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-updates main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main contrib non-free\n" > /etc/apt/sources.list && \
-    # Update
-    apt-get update && apt-get -yqq dist-upgrade && \
+RUN apt-get update && apt-get -yqq dist-upgrade && \
     # Basic utils
     apt-get install -yqq --no-install-recommends \
     build-essential \
@@ -85,7 +76,15 @@ deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main
     libudunits2-dev \
     default-jdk && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie main contrib non-free \n\
+deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-backports main contrib non-free \n\
+deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-updates main contrib non-free \n\
+deb http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main contrib non-free \n\
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie main contrib non-free \n\
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-backports main contrib non-free \n\
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-updates main contrib non-free \n\
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main contrib non-free\n" > /etc/apt/sources.list
 
 # Setup kesci home directory and install conda
 RUN su -m -l $NB_USER -c '\
@@ -96,22 +95,16 @@ RUN su -m -l $NB_USER -c '\
     # Install conda as kesci
     cd /tmp && \
     mkdir -p $CONDA_DIR && \
-    wget https://open-cdn.kesci.com/Miniconda3-latest-Linux-x86_64.sh && \
+    wget https://repo.continuum.io/miniconda/Miniconda3-4.4.10-Linux-x86_64.sh -O Miniconda3-latest-Linux-x86_64.sh && \
     sha256sum Miniconda3-latest-Linux-x86_64.sh && \
     /bin/bash Miniconda3-latest-Linux-x86_64.sh -f -b -p $CONDA_DIR && \
     rm Miniconda3-latest-Linux-x86_64.sh && \
     $CONDA_DIR/bin/conda --version && \
-    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ && \
-    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ && \
-    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
-    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
-    $CONDA_DIR/bin/conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/menpo/ && \
     $CONDA_DIR/bin/conda config --set show_channel_urls yes && \
-    $CONDA_DIR/bin/conda install --quiet --yes conda==4.2.11 && \
     $CONDA_DIR/bin/conda config --system --set auto_update_conda false && \
     $CONDA_DIR/bin/conda clean -tipsy \
     ' && \
-    echo "jpeg 8*" >> /opt/conda/conda-meta/pinned
+    echo "jpeg 9*" >> /opt/conda/conda-meta/pinned
 
 USER root
 
@@ -149,29 +142,29 @@ RUN mkdir /etc/julia && \
 USER $NB_USER
 
 RUN echo "Install R and R basic packages" && \
-    echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
-    conda config --remove channels defaults && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r && \
+    conda config --add channels conda-forge && \
     conda install -y \
-    'r-essentials=1.5.2' && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
+    'r-essentials=3.5.1' && \
     conda config --add channels ataenzer && \
     conda config --add channels jsignell && \
     conda config --add channels pjones && \
     conda config --add channels omgarcia && \
     conda config --add channels cgat && \
+    conda config --add channels sebp && \
+    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
     conda install -y \
-    'r-xml=3.98_1.5' \
-    'r-tm=0.6_2' \
-    'r-rcolorbrewer=1.1_2' \
-    'r-nnet=7.3.8' \
-    'r-nlp=0.1_9' \
-    'r-ggmap=2.6.1' \
-    'r-dplyr=0.5.0' \
-    'r-chron=2.3_47' \
+    'r-tm' \
+    'r-rcolorbrewer' \
+    'r-nnet' \
+    'r-nlp' \
+    'r-ggmap' \
+    'r-chron' \
+    'r-rocr' \
+    'r-arules' \
     && \
-    R -e " \
+    echo 'options("repos" = c(CRAN="http://cran.us.r-project.org"))' > ~/.Rprofile && \
+    R -e "\
     install.packages('choroplethr'); \
     install.packages('choroplethrMaps'); \
     install.packages('Metrics'); \
@@ -182,9 +175,8 @@ RUN echo "Install R and R basic packages" && \
     install.packages('wordcloud'); \
     install.packages('wordcloud2'); \
     install.packages('xgboost'); \
-    install.packages('plotly'); \
-    " \
-    && \
+    install.packages('plotly');" && \
+    echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
     conda clean -tipsy
 
 # Add Julia packages. Only add HDF5 if this is not a test-only build since
@@ -213,7 +205,7 @@ USER root
 RUN chown $NB_USER /usr/local/bin && \
     chown $NB_USER /usr/local/share && \
     chown -R $NB_USER /usr/local/lib && \
-    chown -R $NB_USER /opt/conda/lib/python3.5/site-packages/ && \
+    chown -R $NB_USER /opt/conda/lib/python3.6/site-packages/ && \
     chown -R $NB_USER /usr/local/lib/python2.7/dist-packages/ && \
     mkdir -p /home/$NB_USER/.cache && chown $NB_USER -R /home/$NB_USER/.cache && \
     rm -rf /root/.cache/pip/* && \
