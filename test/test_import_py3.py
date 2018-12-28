@@ -110,12 +110,11 @@ model.covars_ = np.tile(np.identity(2), (3, 1, 1))
 X, Z = model.sample(100)
 print("hmmlearn ok")
 
-#import pystan
-#model_code = 'parameters {real y;} model {y ~ normal(0,1);}'
-#model = pystan.StanModel(model_code=model_code)  # this will take a minute
-#y = model.sampling(n_jobs=1).extract()['y']
-#y.mean()  # should be close to 0
-#print("pystan ok")
+import pystan
+model_code = 'parameters {real y;} model {y ~ normal(0,1);}'
+model = pystan.StanModel(model_code=model_code)  # this will take a minute
+y = model.sampling(n_jobs=1).extract()['y']
+print("pystan y mean", y.mean())
 
 from fbprophet import Prophet
 df = pd.read_csv('example_wp_peyton_manning.csv')
@@ -146,5 +145,3 @@ print("onnx ok")
 
 import skimage
 print("skimage ok")
-
-print("test for py3 finished!")
