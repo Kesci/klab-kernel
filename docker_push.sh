@@ -20,7 +20,7 @@ fi
 if [[ $diffname =~ "base/Dockerfile.97" ]]
 then
 	echo "base gpu file changed, push it."
-	docker tag  klabteam/base:gpu-latest klabteam/base:$tag
+	docker tag  klabteam/base:gpu-latest klabteam/base:gpu-$tag
 	docker push klabteam/base:gpu-$tag
 	docker push klabteam/base:gpu-latest
 	exit 0
