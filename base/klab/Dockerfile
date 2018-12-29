@@ -158,7 +158,7 @@ RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
     julia -e 'import Pkg; Pkg.add("Turing")' && \
     julia -e 'import Pkg; Pkg.add("UnicodePlots")' && \
     julia -e 'import Pkg; Pkg.add("PlotlyJS")'
-    
+
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed), add tuna mirror pypi souce index
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/
 
