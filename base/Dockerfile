@@ -84,7 +84,7 @@ deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restric
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse\n\
 deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse\n\
 deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse\n\
-deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse\n" > /etc/api/source.list
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse\n" > /etc/apt/source.list
 
 # Setup kesci home directory and install conda
 RUN su -m -l $NB_USER -c '\
@@ -201,7 +201,7 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 
 USER root
 
-# Make sure /usr/local/ and conda directories belong to user.
+# Make sure /usr/local/ and conda directories belong to user, and install fonts.
 RUN chown $NB_USER /usr/local/bin && \
     chown $NB_USER /usr/local/share && \
     chown -R $NB_USER /usr/local/lib && \
