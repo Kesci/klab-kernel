@@ -166,8 +166,7 @@ RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.6/site-pac
     echo 'font.sans-serif     : Microsoft YaHei, DejaVu Sans, Bitstream Vera Sans, Lucida Grande, Verdana, Geneva, Lucid, Arial, Helvetica, Avant Garde, sans-serif' >> /opt/conda/lib/python3.6/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.6/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo "[global]\n\
-index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf
-
-RUN rm -rf /home/$NB_USER/.cache/pip/*
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
+    rm -rf /home/$NB_USER/.cache/pip/*
 
 WORKDIR /home/$NB_USER/work
