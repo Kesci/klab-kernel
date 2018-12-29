@@ -17,13 +17,32 @@ else
 	diffname=$(git diff --name-only HEAD~1)
 fi
 
+if [[ $diffname =~ "base/Dockerfile.97" ]]
+then
+	echo "base file changed, push it."
+	docker tag  klabteam/base:gpu-latest klabteam/base:$tag
+	docker push klabteam/base:gpu-$tag
+	docker push klabteam/base:gpu-latest
+else
+	echo "base file not changed, skip it."
+fi
+
+if [[ $diffname =~ "base/klab/Dockerfile.97" ]]
+then
+	echo "klab file changed, push it."
+	docker tag  klabteam/klab:gpu-latest klabteam/klab:gpu-$tag
+	docker push klabteam/klab:gpu-$tag
+	docker push klabteam/klab:gpu-latest
+else
+	echo "klab file not changed, skip it."
+fi
+
 if [[ $diffname =~ "base/Dockerfile" ]]
 then
 	echo "base file changed, push it."
-	( cd base && docker build -t klabteam/base . )
-        docker tag  klabteam/base klabteam/base:$tag
-        docker push klabteam/base:$tag
-        docker push klabteam/base:latest
+	docker tag  klabteam/base klabteam/base:$tag
+	docker push klabteam/base:$tag
+	docker push klabteam/base:latest
 else
 	echo "base file not changed, skip it."
 fi
@@ -31,9 +50,9 @@ fi
 if [[ $diffname =~ "base/klab/Dockerfile" ]]
 then
 	echo "klab file changed, push it."
-        docker tag  klabteam/klab klabteam/klab:$tag
-        docker push klabteam/klab:$tag
-        docker push klabteam/klab:latest
+	docker tag  klabteam/klab klabteam/klab:$tag
+	docker push klabteam/klab:$tag
+	docker push klabteam/klab:latest
 else
 	echo "klab file not changed, skip it."
 fi
