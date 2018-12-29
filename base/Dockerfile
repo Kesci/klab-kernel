@@ -201,7 +201,7 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
 
 USER root
 
-# Make sure /usr/local/ and conda directories belong to user.
+# Make sure /usr/local/ and conda directories belong to user, and install fonts.
 RUN chown $NB_USER /usr/local/bin && \
     chown $NB_USER /usr/local/share && \
     chown -R $NB_USER /usr/local/lib && \
