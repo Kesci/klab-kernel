@@ -199,9 +199,9 @@ RUN julia -e 'import Pkg; Pkg.update()' && \
     chmod -R go+rx $CONDA_DIR/share/jupyter && \
     rm -rf $HOME/.local
 
-# Make sure /usr/local/ and conda directories belong to user.
 USER root
 
+# Make sure /usr/local/ and conda directories belong to user.
 RUN chown $NB_USER /usr/local/bin && \
     chown $NB_USER /usr/local/share && \
     chown -R $NB_USER /usr/local/lib && \
