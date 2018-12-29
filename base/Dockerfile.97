@@ -77,14 +77,14 @@ RUN apt-get update && apt-get -yqq dist-upgrade && \
     default-jdk && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie main contrib non-free \n\
-deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-backports main contrib non-free \n\
-deb http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-updates main contrib non-free \n\
-deb http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-backports main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ jessie-updates main contrib non-free \n\
-deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main contrib non-free\n" > /etc/apt/sources.list
+    echo "deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse\n\
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse\n\
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse\n\
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse\n\
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse\n\
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse\n\
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse\n\
+deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse\n" > /etc/api/source.list
 
 # Setup kesci home directory and install conda
 RUN su -m -l $NB_USER -c '\
