@@ -12,6 +12,23 @@ else
 	diffname=$(git diff HEAD~1 --name-only)
 fi
 
+if [[ $diffname =~ "base/Dockerfile.97" ]]
+then
+	echo "base file changed, build it."
+	( cd base && docker build -f Dockerfile.97 -t klabteam/base:gpu-latest . )
+else
+	echo "base file not changed, skip it."
+fi
+
+if [[ $diffname =~ "base/klab/Dockerfile.97" ]]
+then
+	echo "klab file changed, build it."
+	( cd base/klab && docker build -f Dockerfile.97 -t klabteam/klab:gpu-latest . )
+else
+	echo "klab file not changed, skip it."
+fi
+
+
 if [[ $diffname =~ "base/Dockerfile" ]]
 then
 	echo "base file changed, build it."
