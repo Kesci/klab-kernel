@@ -130,6 +130,7 @@ RUN python2 -m pip install \
 
 ENV LD_LIBRARY_PATH /usr/local/lib:/opt/conda/lib
 ENV CFLAGS="-I /opt/conda/lib/python3.6/site-packages/numpy/core/include $CFLAGS"
+
 RUN pip install \
     tornado==4.5.3 \
     hmmlearn==0.2.1 \
@@ -138,6 +139,9 @@ RUN pip install \
     allennlp==0.8.0 \
     pystan==2.18.0.0 \
     fbprophet==0.3.post2
+
+# Open source toolkit for cheminformatics
+RUN conda install -c conda-forge rdkit
 
 # Julia commonly used packages
 RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
