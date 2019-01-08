@@ -141,7 +141,7 @@ RUN pip install \
     fbprophet==0.3.post2
 
 # Open source toolkit for cheminformatics
-RUN conda install -c conda-forge rdkit
+RUN conda install -y rdkit
 
 # Julia commonly used packages
 RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
