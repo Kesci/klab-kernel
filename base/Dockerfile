@@ -44,6 +44,7 @@ RUN apt-get update && apt-get -yqq dist-upgrade && \
     texlive-latex-base \
     texlive-latex-extra \
     unzip \
+    zsh \
     vim \
     && \
     # Setup locales
