@@ -152,8 +152,6 @@ RUN echo "Install R and R basic packages" && \
     conda config --add channels omgarcia && \
     conda config --add channels cgat && \
     conda config --add channels sebp && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
     conda install -y \
     'r-tm' \
     'r-rcolorbrewer' \
@@ -176,8 +174,7 @@ RUN echo "Install R and R basic packages" && \
     install.packages('wordcloud'); \
     install.packages('wordcloud2'); \
     install.packages('xgboost'); \
-    install.packages('plotly');" && \
-    echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
+    install.packages('plotly');" \
     conda clean -tipsy
 
 # Add Julia packages. Only add HDF5 if this is not a test-only build since
