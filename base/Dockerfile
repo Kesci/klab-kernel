@@ -146,6 +146,12 @@ RUN echo "Install R and R basic packages" && \
     conda config --add channels conda-forge && \
     conda install -y \
     'r-essentials=3.5.1' && \
+    conda config --add channels ataenzer && \
+    conda config --add channels jsignell && \
+    conda config --add channels pjones && \
+    conda config --add channels omgarcia && \
+    conda config --add channels cgat && \
+    conda config --add channels sebp && \
     conda install -y \
     'r-tm' \
     'r-rcolorbrewer' \
