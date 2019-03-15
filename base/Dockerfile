@@ -144,7 +144,7 @@ USER $NB_USER
 
 RUN echo "Install R and R basic packages" && \
     conda config --add channels conda-forge && \
-    conda install -y \
+    conda install -c -r -y \
     'r-essentials=3.5.1' && \
     conda config --add channels ataenzer && \
     conda config --add channels jsignell && \
