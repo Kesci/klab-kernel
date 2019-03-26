@@ -74,6 +74,7 @@ RUN apt-get update && apt-get -yqq dist-upgrade && \
     libxml2-dev \
     xz-utils \
     libudunits2-dev \
+    zsh \
     default-jdk && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
