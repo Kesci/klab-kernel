@@ -44,6 +44,7 @@ RUN apt-get update && apt-get -yqq dist-upgrade && \
     texlive-latex-base \
     texlive-latex-extra \
     unzip \
+    zsh \
     vim \
     && \
     # Setup locales
@@ -144,8 +145,8 @@ USER $NB_USER
 RUN echo "Install R and R basic packages" && \
     conda config --add channels conda-forge && \
     echo "Install r-essentials" && \
-    conda install -y \
-    'r-essentials=3.5.1' && \
+    conda install -y -c r 'r=3.5.1' && \
+    conda install -y -c r 'r-irkernel=0.8*' && \
     conda config --add channels ataenzer && \
     conda config --add channels jsignell && \
     conda config --add channels pjones && \
