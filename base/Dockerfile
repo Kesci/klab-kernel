@@ -142,45 +142,45 @@ RUN mkdir /etc/julia && \
 
 USER $NB_USER
 
-RUN echo "Install R and R basic packages" && \
-    conda config --add channels conda-forge && \
-    echo "Install r-essentials" && \
-    conda install -y -c r 'r=3.5.1' && \
-    conda install -y -c r 'r-irkernel=0.8*' && \
-    conda config --add channels ataenzer && \
-    conda config --add channels jsignell && \
-    conda config --add channels pjones && \
-    conda config --add channels omgarcia && \
-    conda config --add channels cgat && \
-    conda config --add channels sebp && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
-    echo "Install R pacakges" && \
-    conda install -y \
-    'r-tm' \
-    'r-rcolorbrewer' \
-    'r-nnet' \
-    'r-nlp' \
-    'r-ggmap' \
-    'r-chron' \
-    'r-rocr' \
-    'r-arules' \
-    && \
-    echo 'options("repos" = c(CRAN="http://cran.us.r-project.org"))' > ~/.Rprofile && \
-    R -e "\
-    install.packages('choroplethr'); \
-    install.packages('choroplethrMaps'); \
-    install.packages('Metrics'); \
-    install.packages('DescTools'); \
-    install.packages('tools'); \
-    install.packages('grid'); \
-    install.packages('WDI'); \
-    install.packages('wordcloud'); \
-    install.packages('wordcloud2'); \
-    install.packages('xgboost'); \
-    install.packages('plotly');" && \
-    echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
-    conda clean -tipsy
+# RUN echo "Install R and R basic packages" && \
+#     conda config --add channels conda-forge && \
+#     echo "Install r-essentials" && \
+#     conda install -y -c r 'r=3.5.1' && \
+#     conda install -y -c r 'r-irkernel=0.8*' && \
+#     conda config --add channels ataenzer && \
+#     conda config --add channels jsignell && \
+#     conda config --add channels pjones && \
+#     conda config --add channels omgarcia && \
+#     conda config --add channels cgat && \
+#     conda config --add channels sebp && \
+#     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
+#     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
+#     echo "Install R pacakges" && \
+#     conda install -y \
+#     'r-tm' \
+#     'r-rcolorbrewer' \
+#     'r-nnet' \
+#     'r-nlp' \
+#     'r-ggmap' \
+#     'r-chron' \
+#     'r-rocr' \
+#     'r-arules' \
+#     && \
+#     echo 'options("repos" = c(CRAN="http://cran.us.r-project.org"))' > ~/.Rprofile && \
+#     R -e "\
+#     install.packages('choroplethr'); \
+#     install.packages('choroplethrMaps'); \
+#     install.packages('Metrics'); \
+#     install.packages('DescTools'); \
+#     install.packages('tools'); \
+#     install.packages('grid'); \
+#     install.packages('WDI'); \
+#     install.packages('wordcloud'); \
+#     install.packages('wordcloud2'); \
+#     install.packages('xgboost'); \
+#     install.packages('plotly');" && \
+#     echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
+#     conda clean -tipsy
 
 # Add Julia packages. Only add HDF5 if this is not a test-only build since
 # it takes roughly half the entire build time of all of the images on Travis
