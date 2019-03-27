@@ -144,6 +144,7 @@ USER $NB_USER
 
 RUN echo "Install R and R basic packages" && \
     conda config --add channels conda-forge && \
+    echo "Install r-essentials" && \
     conda install -y \
     'r-essentials=3.5.1' && \
     conda config --add channels ataenzer && \
@@ -154,6 +155,7 @@ RUN echo "Install R and R basic packages" && \
     conda config --add channels sebp && \
     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
+    echo "Install R pacakges" && \
     conda install -y \
     'r-tm' \
     'r-rcolorbrewer' \
