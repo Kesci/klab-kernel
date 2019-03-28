@@ -143,7 +143,8 @@ RUN mkdir /etc/julia && \
 USER $NB_USER
 
 # R packages
-RUN conda install --yes \
+RUN conda config --add channels conda-forge && \
+    conda install --yes \
     'r-base=3.5.1' \
     'r-rodbc=1.3*' \
     'unixodbc=2.3.*' \
