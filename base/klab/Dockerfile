@@ -138,10 +138,19 @@ RUN pip install \
     onnx==1.3.0 \
     allennlp==0.8.0 \
     pystan==2.18.0.0 \
-    fbprophet==0.3.post2
+    fbprophet==0.3.post2 \
+    ipython-sql==0.3.9 \
+    psycopg2-binary==2.8.2 \
+    findspark==1.3.0 \
+    pyspark==2.4.2
+
+# Set spark home
+ENV SPARK_HOME=/opt/conda/lib/python3.6/site-packages/pyspark
 
 # Open source toolkit for cheminformatics
 RUN conda install -y rdkit
+
+RUN sudo apt-get update && sudo apt-get install -y scala postgresql zsh
 
 # Julia commonly used packages
 RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
