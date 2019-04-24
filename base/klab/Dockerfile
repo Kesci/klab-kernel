@@ -142,7 +142,7 @@ RUN pip install \
     ipython-sql==0.3.9 \
     psycopg2-binary==2.8.2 \
     findspark==1.3.0 \
-    pyspark==2.4.2 \
+    pyspark==2.4.2
 
 # Set spark home
 ENV SPARK_HOME=/opt/conda/lib/python3.6/site-packages/pyspark
