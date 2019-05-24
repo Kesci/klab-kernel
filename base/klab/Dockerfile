@@ -94,7 +94,6 @@ RUN mkdir -p ~/.pip/ && \
     tqdm==4.32.1 \
     bert-tensorflow==1.0.1 \
     pytorch-pretrained-bert==0.6.2 \
-    fasttext==0.8.3 \
     # klab-plugin
     klab-autotime==0.0.2 \
     && \
@@ -154,6 +153,7 @@ RUN pip install \
     pyspark==2.4.2 \
     modin==0.5.0 \
     auto-sklearn==0.5.2 \
+    fasttext==0.8.3 \
     Wordbatch==1.3.8
 
 # Set spark home
