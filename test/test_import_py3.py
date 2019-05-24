@@ -182,5 +182,5 @@ print("tqdm ok")
 import autosklearn
 print("autosklearn ok")
 
-import fasttext
+import fastText
 print("fasttext ok")
