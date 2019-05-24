@@ -116,11 +116,11 @@ model = pystan.StanModel(model_code=model_code)  # this will take a minute
 y = model.sampling(n_jobs=1).extract()['y']
 print("pystan y mean", y.mean())
 
-from fbprophet import Prophet
-df = pd.read_csv('example_wp_peyton_manning.csv')
-m = Prophet()
-m.fit(df);
-print("fbprophet ok")
+#from fbprophet import Prophet
+#df = pd.read_csv('example_wp_peyton_manning.csv')
+#m = Prophet()
+#m.fit(df);
+#print("fbprophet ok")
 
 import lxml
 print("lxml ok")
