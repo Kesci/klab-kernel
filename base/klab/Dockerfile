@@ -94,6 +94,7 @@ RUN mkdir -p ~/.pip/ && \
     tqdm==4.32.1 \
     bert-tensorflow==1.0.1 \
     pytorch-pretrained-bert==0.6.2 \
+    fasttext==0.8.3 \
     # klab-plugin
     klab-autotime==0.0.2 \
     && \
