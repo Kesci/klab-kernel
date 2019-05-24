@@ -153,6 +153,7 @@ RUN pip install \
     pyspark==2.4.2 \
     modin==0.5.0 \
     auto-sklearn==0.5.2 \
+    fasttext==0.8.3 \
     Wordbatch==1.3.8
 
 # Set spark home
