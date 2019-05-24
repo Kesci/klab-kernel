@@ -145,3 +145,39 @@ print("onnx ok")
 
 import skimage
 print("skimage ok")
+
+import modin.pandas as modpd
+import numpy as np
+
+frame_data = np.random.randint(0, 100, size=(2**10, 2**8))
+df = modpd.DataFrame(frame_data)
+print("modin ok")
+
+import wordbatch
+from wordbatch.models import FTRL
+from wordbatch.extractors import WordBag
+wb= wordbatch.WordBatch(extractor=(WordBag, {"hash_ngrams":2, "hash_ngrams_weights":[0.5, -1.0], "hash_size":2**23, "norm":'l2', "tf":'log', "idf":50.0}))
+clf= FTRL(alpha=1.0, beta=1.0, L1=0.00001, L2=1.0, D=2 ** 25, iters=1)
+
+train_texts= ["Cut down a tree with a herring? It can't be done.", "Don't say that word.", "How can we not say the word if you don't tell us what it is?"]
+train_labels= [1, 0, 1]
+test_texts= ["Wait! I said it! I said it! Ooh! I said it again!"]
+
+clf.fit(wb.transform(train_texts), train_labels)
+preds= clf.predict(wb.transform(test_texts))
+print("wordbatch ok")
+
+import pyltr
+print("pyltr ok")
+
+from tqdm import tqdm
+import time
+
+text = ""
+for char in tqdm(["a", "b", "c", "d"]):
+    time.sleep(0.25)
+    text = text + char
+print("tqdm ok")
+
+import autosklearn
+print("autosklearn ok")
