@@ -2,6 +2,17 @@ FROM klabteam/base:gpu-latest
 
 MAINTAINER K-Lab Authors <service@kesci.com>
 
+# lightgbm gpu
+RUN apt-get update && \
+apt-get install -y \
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev
+
+# Add OpenCL ICD files for LightGBM
+RUN mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+
 ENV NB_USER kesci
 
 USER $NB_USER
@@ -141,7 +152,7 @@ RUN pip install \
 
 # lightgbm-gpu
 
-RUN cd /usr/local/src && mkdir lightgbm && cd lightgbm && \
+RUN cd /tmp && mkdir lightgbm && cd lightgbm && \
     git clone --recursive https://github.com/microsoft/LightGBM && \
     cd LightGBM && mkdir build && cd build && \
     cmake -DUSE_GPU=1 -DOpenCL_LIBRARY=/usr/local/cuda/lib64/libOpenCL.so -DOpenCL_INCLUDE_DIR=/usr/local/cuda/include/ .. && \ 
@@ -180,6 +191,8 @@ RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.6/site-pac
     echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.6/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo "[global]\n\
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
-    rm -rf /home/$NB_USER/.cache/pip/*
+    rm -rf /home/$NB_USER/.cache/pip/* && \
+    rm -rf /var/lib/apt/lists/* && \
+    conda clean -i -l -t -y
 
 WORKDIR /home/$NB_USER/work
