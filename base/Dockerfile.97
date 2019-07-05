@@ -141,63 +141,63 @@ RUN mkdir /etc/julia && \
 
 USER $NB_USER
 
-RUN echo "Install R and R basic packages" && \
-    conda config --add channels conda-forge && \
-    conda install -y \
-    'r-essentials=3.5.1' && \
-    conda config --add channels ataenzer && \
-    conda config --add channels jsignell && \
-    conda config --add channels pjones && \
-    conda config --add channels omgarcia && \
-    conda config --add channels cgat && \
-    conda config --add channels sebp && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
-    conda install -y \
-    'r-tm' \
-    'r-rcolorbrewer' \
-    'r-nnet' \
-    'r-nlp' \
-    'r-ggmap' \
-    'r-chron' \
-    'r-rocr' \
-    'r-arules' \
-    && \
-    echo 'options("repos" = c(CRAN="http://cran.us.r-project.org"))' > ~/.Rprofile && \
-    R -e "\
-    install.packages('choroplethr'); \
-    install.packages('choroplethrMaps'); \
-    install.packages('Metrics'); \
-    install.packages('DescTools'); \
-    install.packages('tools'); \
-    install.packages('grid'); \
-    install.packages('WDI'); \
-    install.packages('wordcloud'); \
-    install.packages('wordcloud2'); \
-    install.packages('xgboost'); \
-    install.packages('plotly');" && \
-    echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
-    conda clean -tipsy
-
-# Add Julia packages. Only add HDF5 if this is not a test-only build since
-# it takes roughly half the entire build time of all of the images on Travis
-# to add this one package and often causes Travis to timeout.
+#RUN echo "Install R and R basic packages" && \
+#    conda config --add channels conda-forge && \
+#    conda install -y \
+#    'r-essentials=3.5.1' && \
+#    conda config --add channels ataenzer && \
+#    conda config --add channels jsignell && \
+#    conda config --add channels pjones && \
+#    conda config --add channels omgarcia && \
+#    conda config --add channels cgat && \
+#    conda config --add channels sebp && \
+#    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
+#    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
+#    conda install -y \
+#    'r-tm' \
+#    'r-rcolorbrewer' \
+#    'r-nnet' \
+#    'r-nlp' \
+#    'r-ggmap' \
+#    'r-chron' \
+#    'r-rocr' \
+#    'r-arules' \
+#    && \
+#    echo 'options("repos" = c(CRAN="http://cran.us.r-project.org"))' > ~/.Rprofile && \
+#    R -e "\
+#    install.packages('choroplethr'); \
+#    install.packages('choroplethrMaps'); \
+#    install.packages('Metrics'); \
+#    install.packages('DescTools'); \
+#    install.packages('tools'); \
+#    install.packages('grid'); \
+#    install.packages('WDI'); \
+#    install.packages('wordcloud'); \
+#    install.packages('wordcloud2'); \
+#    install.packages('xgboost'); \
+#    install.packages('plotly');" && \
+#    echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
+#    conda clean -tipsy
 #
-# Install IJulia as jovyan and then move the kernelspec out
-# to the system share location. Avoids problems with runtime UID change not
-# taking effect properly on the .local folder in the jovyan home dir.
-RUN julia -e 'import Pkg; Pkg.update()' && \
-    (test $TEST_ONLY_BUILD || julia -e 'import Pkg; Pkg.add("HDF5")') && \
-    julia -e 'import Pkg; Pkg.add("Gadfly")' && \
-    julia -e 'import Pkg; Pkg.add("RDatasets")' && \
-    julia -e 'import Pkg; Pkg.add("IJulia")' && \
-    # Precompile Julia packages \
-    julia -e 'using IJulia' && \
-    # move kernelspec out of home \
-    mkdir -p $CONDA_DIR/share/jupyter/kernels/ && \
-    mv $HOME/.local/share/jupyter/kernels/julia* $CONDA_DIR/share/jupyter/kernels/ && \
-    chmod -R go+rx $CONDA_DIR/share/jupyter && \
-    rm -rf $HOME/.local
+## Add Julia packages. Only add HDF5 if this is not a test-only build since
+## it takes roughly half the entire build time of all of the images on Travis
+## to add this one package and often causes Travis to timeout.
+##
+## Install IJulia as jovyan and then move the kernelspec out
+## to the system share location. Avoids problems with runtime UID change not
+## taking effect properly on the .local folder in the jovyan home dir.
+#RUN julia -e 'import Pkg; Pkg.update()' && \
+#    (test $TEST_ONLY_BUILD || julia -e 'import Pkg; Pkg.add("HDF5")') && \
+#    julia -e 'import Pkg; Pkg.add("Gadfly")' && \
+#    julia -e 'import Pkg; Pkg.add("RDatasets")' && \
+#    julia -e 'import Pkg; Pkg.add("IJulia")' && \
+#    # Precompile Julia packages \
+#    julia -e 'using IJulia' && \
+#    # move kernelspec out of home \
+#    mkdir -p $CONDA_DIR/share/jupyter/kernels/ && \
+#    mv $HOME/.local/share/jupyter/kernels/julia* $CONDA_DIR/share/jupyter/kernels/ && \
+#    chmod -R go+rx $CONDA_DIR/share/jupyter && \
+#    rm -rf $HOME/.local
 
 USER root
 
