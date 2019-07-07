@@ -4,10 +4,11 @@ MAINTAINER K-Lab Authors <service@kesci.com>
 
 # lightgbm gpu
 RUN apt-get update && \
-apt-get install -y \
+    apt-get install -y \
     libboost-dev \
     libboost-system-dev \
-    libboost-filesystem-dev
+    libboost-filesystem-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Add OpenCL ICD files for LightGBM
 RUN mkdir -p /etc/OpenCL/vendors && \
@@ -190,7 +191,6 @@ RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.6/site-pac
     echo "[global]\n\
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
     rm -rf /home/$NB_USER/.cache/pip/* && \
-    rm -rf /var/lib/apt/lists/* && \
     conda clean -i -l -t -y
 
 WORKDIR /home/$NB_USER/work
