@@ -2,6 +2,18 @@ FROM klabteam/base:gpu-latest
 
 MAINTAINER K-Lab Authors <service@kesci.com>
 
+# lightgbm gpu
+RUN apt-get update && \
+    apt-get install -y \
+    libboost-dev \
+    libboost-system-dev \
+    libboost-filesystem-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add OpenCL ICD files for LightGBM
+RUN mkdir -p /etc/OpenCL/vendors && \
+    echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+
 ENV NB_USER kesci
 
 USER $NB_USER
@@ -139,25 +151,36 @@ RUN pip install \
     pystan==2.18.0.0 \
     fbprophet==0.3.post2
 
-# Julia commonly used packages
-RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
-    julia -e 'import Pkg; Pkg.add("Distributions")' && \
-    julia -e 'import Pkg; Pkg.add("StatPlots")' && \
-    julia -e 'import Pkg; Pkg.add("Query")' && \
-    julia -e 'import Pkg; Pkg.add("Missings")' && \
-    julia -e 'import Pkg; Pkg.add("PyCall")' && \
-    julia -e 'import Pkg; Pkg.add("LaTeXStrings")' && \
-    julia -e 'import Pkg; Pkg.add("Flux")' && \
-    julia -e 'import Pkg; Pkg.add("Plots")' && \
-    julia -e 'import Pkg; Pkg.add("PyPlot")' && \
-    julia -e 'import Pkg; Pkg.add("RDatasets")' && \
-    julia -e 'import Pkg; Pkg.add("Zygote")' && \
-    julia -e 'import Pkg; Pkg.add("Knet")' && \
-    julia -e 'import Pkg; Pkg.add("DataFrames")' && \
-    julia -e 'import Pkg; Pkg.add("NNlib")' && \
-    julia -e 'import Pkg; Pkg.add("Turing")' && \
-    julia -e 'import Pkg; Pkg.add("UnicodePlots")' && \
-    julia -e 'import Pkg; Pkg.add("PlotlyJS")'
+# lightgbm-gpu
+
+RUN cd /tmp && mkdir lightgbm && cd lightgbm && \
+    git clone --recursive https://github.com/microsoft/LightGBM && \
+    cd LightGBM && mkdir build && cd build && \
+    cmake -DUSE_GPU=1 -DOpenCL_LIBRARY=/usr/local/cuda/lib64/libOpenCL.so -DOpenCL_INCLUDE_DIR=/usr/local/cuda/include/ .. && \ 
+    make OPENCL_HEADERS=/usr/local/cuda/targets/x86_64-linux/include LIBOPENCL=/usr/local/cuda/targets/x86_64-linux/lib && \
+    cd ../python-package &&  python setup.py install --precompile
+
+ENV PATH /usr/local/src/lightgbm/LightGBM:${PATH}
+
+## Julia commonly used packages
+#RUN julia -e 'import Pkg; Pkg.add("IJulia")' && \
+#    julia -e 'import Pkg; Pkg.add("Distributions")' && \
+#    julia -e 'import Pkg; Pkg.add("StatPlots")' && \
+#    julia -e 'import Pkg; Pkg.add("Query")' && \
+#    julia -e 'import Pkg; Pkg.add("Missings")' && \
+#    julia -e 'import Pkg; Pkg.add("PyCall")' && \
+#    julia -e 'import Pkg; Pkg.add("LaTeXStrings")' && \
+#    julia -e 'import Pkg; Pkg.add("Flux")' && \
+#    julia -e 'import Pkg; Pkg.add("Plots")' && \
+#    julia -e 'import Pkg; Pkg.add("PyPlot")' && \
+#    julia -e 'import Pkg; Pkg.add("RDatasets")' && \
+#    julia -e 'import Pkg; Pkg.add("Zygote")' && \
+#    julia -e 'import Pkg; Pkg.add("Knet")' && \
+#    julia -e 'import Pkg; Pkg.add("DataFrames")' && \
+#    julia -e 'import Pkg; Pkg.add("NNlib")' && \
+#    julia -e 'import Pkg; Pkg.add("Turing")' && \
+#    julia -e 'import Pkg; Pkg.add("UnicodePlots")' && \
+#    julia -e 'import Pkg; Pkg.add("PlotlyJS")'
     
 # Install chinese fonts, set minus numbers available,  and set it as default(must be set after matplotlib installed), add tuna mirror pypi souce index
 COPY MicrosoftYaHei.ttf /opt/conda/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/
@@ -167,6 +190,7 @@ RUN echo 'font.family         : sans-serif' >> /opt/conda/lib/python3.6/site-pac
     echo 'axes.unicode_minus  : False' >> /opt/conda/lib/python3.6/site-packages/matplotlib/mpl-data/matplotlibrc && \
     echo "[global]\n\
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple\n" > ~/.pip/pip.conf && \
-    rm -rf /home/$NB_USER/.cache/pip/*
+    rm -rf /home/$NB_USER/.cache/pip/* && \
+    conda clean -i -l -t -y
 
 WORKDIR /home/$NB_USER/work
