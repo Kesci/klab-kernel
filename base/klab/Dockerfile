@@ -154,7 +154,8 @@ RUN pip install \
     modin==0.5.0 \
     auto-sklearn==0.5.2 \
     https://github.com/facebookresearch/fastText/archive/v0.2.0.zip \
-    Wordbatch==1.3.8
+    Wordbatch==1.3.8 \
+    paddlepaddle==1.5.0
 
 # Set spark home
 ENV SPARK_HOME=/opt/conda/lib/python3.6/site-packages/pyspark
