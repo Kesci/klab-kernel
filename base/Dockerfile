@@ -44,6 +44,7 @@ RUN apt-get update && apt-get -yqq dist-upgrade && \
     texlive-latex-base \
     texlive-latex-extra \
     unzip \
+    zsh \
     vim \
     && \
     # Setup locales
@@ -141,42 +142,25 @@ RUN mkdir /etc/julia && \
 
 USER $NB_USER
 
-RUN echo "Install R and R basic packages" && \
-    conda config --add channels conda-forge && \
-    conda install -y \
-    'r-essentials=3.5.1' && \
-    conda config --add channels ataenzer && \
-    conda config --add channels jsignell && \
-    conda config --add channels pjones && \
-    conda config --add channels omgarcia && \
-    conda config --add channels cgat && \
-    conda config --add channels sebp && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/ && \
-    conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/ && \
-    conda install -y \
-    'r-tm' \
-    'r-rcolorbrewer' \
-    'r-nnet' \
-    'r-nlp' \
-    'r-ggmap' \
-    'r-chron' \
-    'r-rocr' \
-    'r-arules' \
-    && \
-    echo 'options("repos" = c(CRAN="http://cran.us.r-project.org"))' > ~/.Rprofile && \
-    R -e "\
-    install.packages('choroplethr'); \
-    install.packages('choroplethrMaps'); \
-    install.packages('Metrics'); \
-    install.packages('DescTools'); \
-    install.packages('tools'); \
-    install.packages('grid'); \
-    install.packages('WDI'); \
-    install.packages('wordcloud'); \
-    install.packages('wordcloud2'); \
-    install.packages('xgboost'); \
-    install.packages('plotly');" && \
-    echo 'options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))' > ~/.Rprofile && \
+# R packages
+RUN conda install --yes \
+    'r-base=3.5.1' \
+    'r-rodbc=1.3*' \
+    'unixodbc=2.3.*' \
+    'r-irkernel=0.8*' \
+    'r-plyr=1.8*' \
+    'r-tidyverse=1.2*' \
+    'r-forecast=8.2*' \
+    'r-rsqlite=2.1*' \
+    'r-reshape2=1.4*' \
+    'r-nycflights13=1.0*' \
+    'r-caret=6.0*' \
+    'r-rcurl=1.95*' \
+    'r-crayon=1.3*' \
+    'r-randomforest=4.6*' \
+    'r-htmltools=0.3*' \
+    'r-htmlwidgets=1.2*' \
+    'r-hexbin=1.27*' && \
     conda clean -tipsy
 
 # Add Julia packages. Only add HDF5 if this is not a test-only build since
